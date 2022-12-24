@@ -14,7 +14,7 @@ index e0f69edf603c2ec99bc92b16b18912272cc41bd9..4d63d213f8a42d1b36b0a0fe65ee75af
  
 +        // Template start
 +        @NotNull
-+        public org.bukkit.configuration.file.YamlConfiguration getTemplateConfigurations() { // Edit Here
++        public org.bukkit.configuration.file.YamlConfiguration getTemplateConfiguration() { // Edit Here
 +            throw new UnsupportedOperationException("Not supported yet.");
 +        }
 +        // Template end
