@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
 Date: Sun, 12 Jun 2022 10:57:51 -0500
-Subject: [PATCH] Template config files
+Subject: [PATCH] Template Configurations
 
 
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
@@ -14,7 +14,7 @@ index e0f69edf603c2ec99bc92b16b18912272cc41bd9..4d63d213f8a42d1b36b0a0fe65ee75af
  
 +        // Template start
 +        @NotNull
-+        public org.bukkit.configuration.file.YamlConfiguration getTemplateConfig() { // Edit Here
++        public org.bukkit.configuration.file.YamlConfiguration getTemplateConfigurations() { // Edit Here
 +            throw new UnsupportedOperationException("Not supported yet.");
 +        }
 +        // Template end
