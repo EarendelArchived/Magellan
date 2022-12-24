@@ -94,13 +94,18 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..e777b00db7791c7abd7bd8098f92b995
          //int distance; // Purpur - use field
          try {
              int jenkinsBuild = Integer.parseInt(versionInfo);
-@@ -81,8 +82,12 @@ public class PaperVersionFetcher implements VersionFetcher {
-                                         .hoverEvent(Component.text("Click to open", NamedTextColor.WHITE))
-                                         .clickEvent(ClickEvent.openUrl(DOWNLOAD_PAGE))));
+@@ -65,6 +66,9 @@ public class PaperVersionFetcher implements VersionFetcher {
+             versionInfo = versionInfo.replace("\"", "");
+             distance = fetchDistanceFromGitHub(repo, branch, versionInfo);
          }
-+         */ // Template - Disalbe CI Checking
-+         versionInfo = versionInfo.replace("\"", ""); // Template
-+         distance = fetchDistanceFromGitHub(repo, branch, versionInfo); // Template
++         */ // Template - Disable CI Checking
++        versionInfo = versionInfo.replace("\"", ""); // Template
++        distance = fetchDistanceFromGitHub(repo, branch, versionInfo); // Template
+ 
+         switch (distance) {
+             case -1:
+@@ -83,6 +87,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+         }
      }
  
 +    /* // Template - Disalbe CI Checking
