@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index d5b7458f6b79addf1a12eb82443ba5bdbe2ea5d3..42f5a43ed9356cea7fa5fc9e8e790544c7747c3c 100644
+index d5b7458f6b79addf1a12eb82443ba5bdbe2ea5d3..50e752064a3b884af8e13051ae7fc556bd4d2ccd 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,7 +7,7 @@ plugins {
@@ -27,7 +27,7 @@ index d5b7458f6b79addf1a12eb82443ba5bdbe2ea5d3..42f5a43ed9356cea7fa5fc9e8e790544
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 9713263c3bd34ab8a3bfc0a8797ba0b1b88ed733..9d9c9bcbd9bd86915e084f2438eae2a732eadd33 100644
+index 9713263c3bd34ab8a3bfc0a8797ba0b1b88ed733..32a5876558bbc787b608c9168fc0783b8ef2715b 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -593,7 +593,7 @@ public class Metrics {
@@ -49,7 +49,7 @@ index 9713263c3bd34ab8a3bfc0a8797ba0b1b88ed733..9d9c9bcbd9bd86915e084f2438eae2a7
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index fba5dbdb7bcbb55400ef18342c9b54612972a718..abd9b2bb9b2079b1eef20e3b1ab1c5c24cc91e65 100644
+index fba5dbdb7bcbb55400ef18342c9b54612972a718..7d27b2368637faafe071fff8c8a5184ec1e91195 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -20,7 +20,7 @@ import java.util.stream.StreamSupport;
@@ -116,7 +116,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..abd9b2bb9b2079b1eef20e3b1ab1c5c2
      // Contributed by Techcable <Techcable@outlook.com> in GH-65
      private static int fetchDistanceFromGitHub(@Nonnull String repo, @Nonnull String branch, @Nonnull String hash) {
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 3cb56595822799926a8141e60a42f5d1edfc6de5..76eb52435d80a71e8247ecdb8301a64d7078464e 100644
+index 3cb56595822799926a8141e60a42f5d1edfc6de5..1b05aca7fb5ac5217548717e52a09721271053c7 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -129,7 +129,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..76eb52435d80a71e8247ecdb8301a64d
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/net/minecraft/CrashReport.java b/src/main/java/net/minecraft/CrashReport.java
-index b5b6657e52e4f7a630229bd3ba433438af293e22..703b2cb51940ff8625d022e884258ff46a628efa 100644
+index b5b6657e52e4f7a630229bd3ba433438af293e22..4704522a1e11b9e0abd177e5c08b249fa2b723e0 100644
 --- a/src/main/java/net/minecraft/CrashReport.java
 +++ b/src/main/java/net/minecraft/CrashReport.java
 @@ -35,7 +35,7 @@ public class CrashReport {
@@ -151,7 +151,7 @@ index b5b6657e52e4f7a630229bd3ba433438af293e22..703b2cb51940ff8625d022e884258ff4
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index cea4447aad2d64db56a76e4ba180dc7326d2e13b..3325e688c6bf1bfc14569cbf9e6b1981d46cb42d 100644
+index cea4447aad2d64db56a76e4ba180dc7326d2e13b..6bf4a17ad78848e49b6672819cd9f0a73e7f2f98 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -927,7 +927,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -164,7 +164,7 @@ index cea4447aad2d64db56a76e4ba180dc7326d2e13b..3325e688c6bf1bfc14569cbf9e6b1981
                  this.getRunningThread().stop();
                  try {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index a9289072b048095330ea32d7c965e8dda61a36fc..2e5f1a231213340bc0084ba8d3478dce9bde3606 100644
+index a9289072b048095330ea32d7c965e8dda61a36fc..9bcd6ddcbaf00a0207ad3acd38d8f8db34f53f03 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -1034,7 +1034,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -177,7 +177,7 @@ index a9289072b048095330ea32d7c965e8dda61a36fc..2e5f1a231213340bc0084ba8d3478dce
                  continue;
              }
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index bd502ca721de0cab438d995efa00ad0554c0d2fe..b009b06dd6390def2ef58a6a9c2e3d029ad4293d 100644
+index bd502ca721de0cab438d995efa00ad0554c0d2fe..3c5821d98af9682d78984d573e059710ee8b3608 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -113,7 +113,7 @@ public class RegionFileStorage implements AutoCloseable {
@@ -190,7 +190,7 @@ index bd502ca721de0cab438d995efa00ad0554c0d2fe..b009b06dd6390def2ef58a6a9c2e3d02
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b69634a5cf57e4086e644819f68638d6a2ab897c..88fbaf7011d322cec621b7fa66c432e26c586d34 100644
+index b69634a5cf57e4086e644819f68638d6a2ab897c..67c737cc1f504a572ce0c96b60ca256b2066406f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -262,7 +262,7 @@ import javax.annotation.Nullable; // Paper
@@ -203,7 +203,7 @@ index b69634a5cf57e4086e644819f68638d6a2ab897c..88fbaf7011d322cec621b7fa66c432e2
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index ddec0b7470e5a925ad6247970269f3654792ab25..ce15e4c479683665e1374523c3e053683b7ab79b 100644
+index ddec0b7470e5a925ad6247970269f3654792ab25..9e7cd4b30b9da974bbdf67729ce0a76456d417cf 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 @@ -877,7 +877,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
@@ -216,7 +216,7 @@ index ddec0b7470e5a925ad6247970269f3654792ab25..ce15e4c479683665e1374523c3e05368
  
      @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index 5402098dce0d64d3dceea51f248d7d366850a74f..cd08c91adc2b388377ff9a47f1708e2cd86f38e7 100644
+index 5402098dce0d64d3dceea51f248d7d366850a74f..5a9354952d6a2fa7bff0d8d08dffe30137bde173 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 @@ -504,7 +504,7 @@ public class CraftScheduler implements BukkitScheduler {
@@ -229,7 +229,7 @@ index 5402098dce0d64d3dceea51f248d7d366850a74f..cd08c91adc2b388377ff9a47f1708e2c
                  // (async tasks must live with race-conditions if they attempt to cancel between these few lines of code)
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index fb87620c742ff7912f5e8ccd2a7930dd605576d9..dddea464dcae91def0ac56c8ff0477f51a8c0784 100644
+index fb87620c742ff7912f5e8ccd2a7930dd605576d9..fa1d321ebb128ef068a15240bc6aa62736505679 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
@@ -251,7 +251,7 @@ index fb87620c742ff7912f5e8ccd2a7930dd605576d9..dddea464dcae91def0ac56c8ff0477f5
          }
  
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index c7c0ed8dfe58c841faf684a1fe228eeda6cd57b7..c27036fd4df69e5d0257d48a2a6efda8c609c81f 100644
+index c7c0ed8dfe58c841faf684a1fe228eeda6cd57b7..59cdb0f6d091b37868f16f90afbde847a878aa20 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -227,7 +227,7 @@ public class PurpurConfig {
@@ -264,7 +264,7 @@ index c7c0ed8dfe58c841faf684a1fe228eeda6cd57b7..c27036fd4df69e5d0257d48a2a6efda8
          serverModName = getString("settings.server-mod-name", serverModName);
      }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index a810bfd3b8d6bd4d8f2ef8797e4281ae4fe8a67f..db77c2a0bb2321eeb75cff563491364c3d54021d 100644
+index a810bfd3b8d6bd4d8f2ef8797e4281ae4fe8a67f..92015e63d82b5c546ceee3aea242b26ca43447e9 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -96,7 +96,7 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa
