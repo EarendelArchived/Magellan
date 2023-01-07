@@ -1,16 +1,29 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 21 Dec 2022 18:28:28 +0900
+From: "github-actions[bot]"
+ <41898282+github-actions[bot]@users.noreply.github.com>
+Date: Fri, 6 Jan 2023 17:10:08 +0000
 Subject: [PATCH] Purpur API Changes
 
 Original: PurpurMC
-Copyright (C) 2022 PurpurMC LLC
+Copyright (C) 2023 PurpurMC
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 diff --git a/build.gradle.kts b/build.gradle.kts
 index a995ecc3b1d6181c58d5b4a0a6a893178bdc40aa..5c8dd4d3313a791d1fee00ec5d4bc595b76b7d6d 100644
@@ -447,7 +460,7 @@ index e5b94299793ba7cb9071a3f3a35ddbe08b0b9906..0a3013843f7e1d3fcedfaca6a7b28864
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/OfflinePlayer.java b/src/main/java/org/bukkit/OfflinePlayer.java
-index a7d1f1e701f23e851f735584a30bedadb0d8b9bd..7da38adede5b752583b94f6a14b3e45d0fd10209 100644
+index 69b50eee42e8c52063033705bd23a5ef5231ed83..3578ab0c3a413d56bc39af43b5d3201d20d7d13a 100644
 --- a/src/main/java/org/bukkit/OfflinePlayer.java
 +++ b/src/main/java/org/bukkit/OfflinePlayer.java
 @@ -455,4 +455,114 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
@@ -1260,10 +1273,10 @@ index bc84b892cae5fe7019a3ad481e9da79956efa1fe..48eb5b00c460cccde29d327cef1d63fc
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 9f762cf670bf5db9138e468e72e57781d8d22f54..18b8b0ee95216c7168d2502c901319f450e6e276 100644
+index de960716478477ce199526b8f860cfafa1541ee9..f65a860d09d9f1d5045b2af63a80109e7c1c4ddf 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2411,6 +2411,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2428,6 +2428,14 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      public void showDemoScreen();
  
@@ -1278,7 +1291,7 @@ index 9f762cf670bf5db9138e468e72e57781d8d22f54..18b8b0ee95216c7168d2502c901319f4
      /**
       * Gets whether the player has the "Allow Server Listings" setting enabled.
       *
-@@ -2903,4 +2911,153 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2920,4 +2928,139 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
@@ -1330,20 +1343,6 @@ index 9f762cf670bf5db9138e468e72e57781d8d22f54..18b8b0ee95216c7168d2502c901319f4
 +     * @param invulnerableTicks Invulnerable ticks remaining
 +     */
 +    void setSpawnInvulnerableTicks(int invulnerableTicks);
-+
-+    /**
-+     * Allows you to enable fall damage while {@link #getAllowFlight()} is {@code true}
-+     *
-+     * @param flyingFallDamage Enables fall damage when {@link #getAllowFlight()} is true
-+     */
-+    public void setFlyingFallDamage(boolean flyingFallDamage);
-+
-+    /**
-+     * Allows you get if fall damage is enabled while {@link #getAllowFlight()} is {@code true}
-+     *
-+     * @return True if fall damage is enabled when {@link #getAllowFlight()} is true
-+     */
-+    public boolean hasFlyingFallDamage();
 +
 +    /**
 +     * Creates debug block highlight on specified block location and show it to this player.

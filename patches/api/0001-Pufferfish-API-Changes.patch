@@ -1,10 +1,11 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: AlphaKR93 <alphakr93@outlook.com>
-Date: Wed, 21 Dec 2022 15:28:52 +0900
+From: "github-actions[bot]"
+ <41898282+github-actions[bot]@users.noreply.github.com>
+Date: Fri, 6 Jan 2023 17:03:10 +0000
 Subject: [PATCH] Pufferfish API Changes
 
 Original: Kevin Raneri <kevin.raneri@gmail.com>
-Copyright (C) 2022 Pufferfish Studios LLC
+Copyright (C) 2023 Pufferfish Studios LLC
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

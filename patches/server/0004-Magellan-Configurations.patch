@@ -1,37 +1,38 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@outlook.com>
 Date: Thu, 22 Dec 2022 20:05:01 +0900
-Subject: [PATCH] Template Configurations
+Subject: [PATCH] Magellan Configurations
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 46858fb57f122033a68aeb4ad3943132a677fb46..f8601698f934930ef280ff3d890f27196f90db78 100644
+index 46858fb57f122033a68aeb4ad3943132a677fb46..554e092c39c6ac2a6b7ee7ecb5552b46d5486f69 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -227,6 +227,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -227,6 +227,15 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          }
          org.purpurmc.purpur.PurpurConfig.registerCommands();
          // Purpur end
-+        // Template start
++        // Magellan start
 +        try {
-+            team.earendel.template.configurations.TemplateConfiguration.init((java.io.File) options.valueOf("template-configuration"));
++            team.earendel.magellan.configurations.MagellanConfiguration.init((java.io.File) options.valueOf("magellan-configuration"));
 +        } catch (Exception e) {
-+            DedicatedServer.LOGGER.error("Unable to load Template configurations", e);
++            DedicatedServer.LOGGER.error("Unable to load Magellan configurations", e);
 +            return false;
 +        }
-+        // Template end
++        team.earendel.magellan.configurations.MagellanConfiguration.registerCommands();
++        // Magellan end
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 353dc896e554e71087cbee2e5e06c61116149d4a..c2ad8ed68a94988cccca5f8e6a8dbf09969f0b3a 100644
+index 2e5f1a231213340bc0084ba8d3478dce9bde3606..da85386de1f3530e3e55193b2fe634ff8c7ce0d3 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -174,6 +174,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
-+    public final team.earendel.template.configurations.TemplateWorldConfiguration templateWorldConfiguration; // Template
++    public final team.earendel.magellan.configurations.MagellanWorldConfiguration magellanWorldConfiguration; // Magellan
  
      public final co.aikar.timings.WorldTimingsHandler timings; // Paper
      public static BlockPos lastPhysicsProblem; // Spigot
@@ -39,19 +40,19 @@ index 353dc896e554e71087cbee2e5e06c61116149d4a..c2ad8ed68a94988cccca5f8e6a8dbf09
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
-+        this.templateWorldConfiguration = new team.earendel.template.configurations.TemplateWorldConfiguration(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Template
++        this.magellanWorldConfiguration = new team.earendel.magellan.configurations.MagellanWorldConfiguration(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Magellan
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index aec55462ddda6420a6ae9253012c05a613cce1cc..c81fa9ffd1eaf742c01c767e340a1648572ec70a 100644
+index 88fbaf7011d322cec621b7fa66c432e26c586d34..42e4ccbeabb4295f5583c3458734f1d04ca7f535 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1026,6 +1026,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
-+        team.earendel.template.configurations.TemplateConfiguration.init((File) console.options.valueOf("template-configuration")); // Template
++        team.earendel.magellan.configurations.MagellanConfiguration.init((File) console.options.valueOf("magellan-configuration")); // Magellan
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
@@ -59,7 +60,7 @@ index aec55462ddda6420a6ae9253012c05a613cce1cc..c81fa9ffd1eaf742c01c767e340a1648
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
-+            world.templateWorldConfiguration.init(); // Template
++            world.magellanWorldConfiguration.init(); // Magellan
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
@@ -67,7 +68,7 @@ index aec55462ddda6420a6ae9253012c05a613cce1cc..c81fa9ffd1eaf742c01c767e340a1648
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
          org.purpurmc.purpur.PurpurConfig.registerCommands(); // Purpur
-+        team.earendel.template.configurations.TemplateConfiguration.registerCommands(); // Template
++        team.earendel.magellan.configurations.MagellanConfiguration.registerCommands(); // Magellan
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
@@ -75,51 +76,51 @@ index aec55462ddda6420a6ae9253012c05a613cce1cc..c81fa9ffd1eaf742c01c767e340a1648
          }
          // Purpur end
  
-+        // Template start
++        // Magellan start
 +        @Override
-+        public YamlConfiguration getTemplateConfiguration() {
-+            return team.earendel.template.configurations.TemplateConfiguration.configuration;
++        public YamlConfiguration getMagellanConfiguration() {
++            return team.earendel.magellan.configurations.MagellanConfiguration.configuration;
 +        }
-+        // Template end
++        // Magellan end
 +
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 082d0516c80cf231dd7ceb454508bb77407c499b..4f0abd3fb0021ecc8d3bf1555bddebe787cea536 100644
+index 576cd8e20982bb20d10213b6c7a229428eec1c2f..ae10c948bbb00bd2b47dfe5beb5ad7b340181561 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -180,6 +180,14 @@ public class Main {
                          .describedAs("Yml file");
                  // Purpur end
  
-+                // Template start
-+                acceptsAll(asList("template", "template-configuration"), "File for Template configurations")
++                // Magellan start
++                acceptsAll(asList("magellan", "magellan-configuration"), "File for Magellan configurations")
 +                        .withRequiredArg()
 +                        .ofType(File.class)
-+                        .defaultsTo(new File("template.yml"))
++                        .defaultsTo(new File("magellan.yml"))
 +                        .describedAs("Yml file");
-+                // Template end
++                // Magellan end
 +
                  // Paper start
                  acceptsAll(asList("server-name"), "Name of the server")
                          .withRequiredArg()
-diff --git a/src/main/java/team/earendel/template/commands/TemplateCommand.java b/src/main/java/team/earendel/template/commands/TemplateCommand.java
+diff --git a/src/main/java/team/earendel/magellan/commands/MagellanCommand.java b/src/main/java/team/earendel/magellan/commands/MagellanCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3a71a00f8ef93d9c006a33fcd72539994be9121c
+index 0000000000000000000000000000000000000000..00bc18435bc439b5acd4d61084525df028258d08
 --- /dev/null
-+++ b/src/main/java/team/earendel/template/commands/TemplateCommand.java
++++ b/src/main/java/team/earendel/magellan/commands/MagellanCommand.java
 @@ -0,0 +1,66 @@
-+package team.earendel.template.commands;
++package team.earendel.magellan.commands;
 +
 +import net.kyori.adventure.text.Component;
++import net.kyori.adventure.text.format.NamedTextColor;
 +import net.minecraft.server.MinecraftServer;
 +import net.minecraft.server.level.ServerLevel;
 +import org.bukkit.Location;
 +import org.bukkit.command.Command;
 +import org.bukkit.command.CommandSender;
-+import team.earendel.template.configurations.TemplateConfiguration;
-+import team.earendel.template.constants.AdventureTextColor;
++import team.earendel.magellan.configurations.MagellanConfiguration;
 +
 +import java.io.File;
 +import java.util.Collections;
@@ -127,12 +128,12 @@ index 0000000000000000000000000000000000000000..3a71a00f8ef93d9c006a33fcd7253999
 +import java.util.stream.Collectors;
 +import java.util.stream.Stream;
 +
-+public class TemplateCommand extends Command {
-+    public TemplateCommand(String name) {
++public class MagellanCommand extends Command {
++    public MagellanCommand(String name) {
 +        super(name);
-+        this.description = "Template related commands";
-+        this.usageMessage = "/template [reload | version]";
-+        this.setPermission("bukkit.command.template");
++        this.description = "Magellan related commands";
++        this.usageMessage = "/magellan [reload | version]";
++        this.setPermission("bukkit.command.magellan");
 +    }
 +
 +    @Override
@@ -150,22 +151,22 @@ index 0000000000000000000000000000000000000000..3a71a00f8ef93d9c006a33fcd7253999
 +        if (!testPermission(sender)) return true;
 +
 +        if (args.length != 1) {
-+            sender.sendMessage(Component.text("Usage: " + usageMessage).color(AdventureTextColor.RED));
++            sender.sendMessage(Component.text("Usage: " + usageMessage).color(NamedTextColor.RED));
 +            return false;
 +        }
 +
 +        if (args[0].equalsIgnoreCase("reload")) {
-+            Command.broadcastCommandMessage(sender, Component.text("Please note that this command is not supported and may cause issues.").color(AdventureTextColor.RED));
-+            Command.broadcastCommandMessage(sender, Component.text("If you encounter any issues please use the /stop command to restart your server.").color(AdventureTextColor.RED));
++            Command.broadcastCommandMessage(sender, Component.text("Please note that this command is not supported and may cause issues.").color(NamedTextColor.RED));
++            Command.broadcastCommandMessage(sender, Component.text("If you encounter any issues please use the /stop command to restart your server.").color(NamedTextColor.RED));
 +
 +            MinecraftServer console = MinecraftServer.getServer();
-+            TemplateConfiguration.init((File) console.options.valueOf("template-configuration"));
++            MagellanConfiguration.init((File) console.options.valueOf("magellan-configuration"));
 +            for (ServerLevel level : console.getAllLevels()) {
-+                level.templateWorldConfiguration.init();
++                level.magellanWorldConfiguration.init();
 +            }
 +            console.server.reloadCount++;
 +
-+            Command.broadcastCommandMessage(sender, Component.text("Successfully reloaded Template configuration.").color(AdventureTextColor.GREEN));
++            Command.broadcastCommandMessage(sender, Component.text("Successfully reloaded Magellan configuration.").color(NamedTextColor.GREEN));
 +        } else if (args[0].equalsIgnoreCase("version")) {
 +            Command verCmd = org.bukkit.Bukkit.getServer().getCommandMap().getCommand("version");
 +            if (verCmd != null) {
@@ -176,13 +177,13 @@ index 0000000000000000000000000000000000000000..3a71a00f8ef93d9c006a33fcd7253999
 +        return true;
 +    }
 +}
-diff --git a/src/main/java/team/earendel/template/configurations/TemplateConfiguration.java b/src/main/java/team/earendel/template/configurations/TemplateConfiguration.java
+diff --git a/src/main/java/team/earendel/magellan/configurations/MagellanConfiguration.java b/src/main/java/team/earendel/magellan/configurations/MagellanConfiguration.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..0d1115dd3ef289e122504226b5726764433481a9
+index 0000000000000000000000000000000000000000..54a533aaaad0c515156e4da8d5fd4bc627742796
 --- /dev/null
-+++ b/src/main/java/team/earendel/template/configurations/TemplateConfiguration.java
++++ b/src/main/java/team/earendel/magellan/configurations/MagellanConfiguration.java
 @@ -0,0 +1,158 @@
-+package team.earendel.template.configurations;
++package team.earendel.magellan.configurations;
 +
 +import com.google.common.base.Throwables;
 +import com.google.common.collect.ImmutableMap;
@@ -193,7 +194,7 @@ index 0000000000000000000000000000000000000000..0d1115dd3ef289e122504226b5726764
 +import org.bukkit.configuration.ConfigurationSection;
 +import org.bukkit.configuration.InvalidConfigurationException;
 +import org.bukkit.configuration.file.YamlConfiguration;
-+import team.earendel.template.commands.TemplateCommand;
++import team.earendel.magellan.commands.MagellanCommand;
 +
 +import java.io.File;
 +import java.io.IOException;
@@ -206,9 +207,9 @@ index 0000000000000000000000000000000000000000..0d1115dd3ef289e122504226b5726764
 +import java.util.logging.Level;
 +
 +@SuppressWarnings("unused")
-+public class TemplateConfiguration {
++public class MagellanConfiguration {
 +    private static final String HEADER = """
-+            This is the main configuration file for Template.
++            This is the main configuration file for Magellan.
 +            Some options may impact gameplay, so use with caution,
 +            and make sure you know what each option does before configuring.
 +            """;
@@ -227,7 +228,7 @@ index 0000000000000000000000000000000000000000..0d1115dd3ef289e122504226b5726764
 +            configuration.load(CONFIG_FILE);
 +        } catch (IOException ignore) {
 +        } catch (InvalidConfigurationException ex) {
-+            Bukkit.getLogger().log(Level.SEVERE, "Could not load template.yml, please correct your syntax errors", ex);
++            Bukkit.getLogger().log(Level.SEVERE, "Could not load magellan.yml, please correct your syntax errors", ex);
 +            throw Throwables.propagate(ex);
 +        }
 +        configuration.options().header(HEADER);
@@ -235,12 +236,12 @@ index 0000000000000000000000000000000000000000..0d1115dd3ef289e122504226b5726764
 +        verbose = getBoolean("verbose", false);
 +
 +        commands = new HashMap<>();
-+        commands.put("template", new TemplateCommand("template"));
++        commands.put("magellan", new MagellanCommand("magellan"));
 +
 +        version = getInt("config-version", 1);
 +        set("config-version", 1);
 +
-+        readConfig(TemplateConfiguration.class, null);
++        readConfig(MagellanConfiguration.class, null);
 +
 +        Blocks.rebuildCache();
 +    }
@@ -257,7 +258,7 @@ index 0000000000000000000000000000000000000000..0d1115dd3ef289e122504226b5726764
 +
 +    public static void registerCommands() {
 +        for (Map.Entry<String, Command> entry : commands.entrySet()) {
-+            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "Template", entry.getValue());
++            MinecraftServer.getServer().server.getCommandMap().register(entry.getKey(), "Magellan", entry.getValue());
 +        }
 +    }
 +
@@ -340,27 +341,27 @@ index 0000000000000000000000000000000000000000..0d1115dd3ef289e122504226b5726764
 +        return builder.build();
 +    }
 +}
-diff --git a/src/main/java/team/earendel/template/configurations/TemplateWorldConfiguration.java b/src/main/java/team/earendel/template/configurations/TemplateWorldConfiguration.java
+diff --git a/src/main/java/team/earendel/magellan/configurations/MagellanWorldConfiguration.java b/src/main/java/team/earendel/magellan/configurations/MagellanWorldConfiguration.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..4a9ef02709c53115eaf0bb1960691f00ab5458f8
+index 0000000000000000000000000000000000000000..f08d6191938ed88c3158554f6a2e1333e93e18d8
 --- /dev/null
-+++ b/src/main/java/team/earendel/template/configurations/TemplateWorldConfiguration.java
++++ b/src/main/java/team/earendel/magellan/configurations/MagellanWorldConfiguration.java
 @@ -0,0 +1,75 @@
-+package team.earendel.template.configurations;
++package team.earendel.magellan.configurations;
 +
 +import org.bukkit.World;
 +import org.bukkit.configuration.ConfigurationSection;
 +import java.util.List;
 +import java.util.Map;
-+import static team.earendel.template.configurations.TemplateConfiguration.log;
++import static team.earendel.magellan.configurations.MagellanConfiguration.log;
 +
 +@SuppressWarnings("unused")
-+public class TemplateWorldConfiguration {
++public class MagellanWorldConfiguration {
 +
 +    private final String worldName;
 +    private final World.Environment environment;
 +
-+    public TemplateWorldConfiguration(String worldName, World.Environment environment) {
++    public MagellanWorldConfiguration(String worldName, World.Environment environment) {
 +        this.worldName = worldName;
 +        this.environment = environment;
 +        init();
@@ -368,84 +369,56 @@ index 0000000000000000000000000000000000000000..4a9ef02709c53115eaf0bb1960691f00
 +
 +    public void init() {
 +        log("-------- World Configurations For [" + worldName + "] --------");
-+        TemplateConfiguration.readConfig(TemplateWorldConfiguration.class, this);
++        MagellanConfiguration.readConfig(MagellanWorldConfiguration.class, this);
 +    }
 +
 +    private void set(String path, Object val) {
-+        TemplateConfiguration.configuration.addDefault("world-configurations.default." + path, val);
-+        TemplateConfiguration.configuration.set("world-configurations.default." + path, val);
-+        if (TemplateConfiguration.configuration.get("world-configurations." + worldName + "." + path) != null) {
-+            TemplateConfiguration.configuration.addDefault("world-configurations." + worldName + "." + path, val);
-+            TemplateConfiguration.configuration.set("world-configurations." + worldName + "." + path, val);
++        MagellanConfiguration.configuration.addDefault("world-configurations.default." + path, val);
++        MagellanConfiguration.configuration.set("world-configurations.default." + path, val);
++        if (MagellanConfiguration.configuration.get("world-configurations." + worldName + "." + path) != null) {
++            MagellanConfiguration.configuration.addDefault("world-configurations." + worldName + "." + path, val);
++            MagellanConfiguration.configuration.set("world-configurations." + worldName + "." + path, val);
 +        }
 +    }
 +
 +    private ConfigurationSection getConfigurationSection(String path) {
-+        ConfigurationSection section = TemplateConfiguration.configuration.getConfigurationSection("world-configurations." + worldName + "." + path);
-+        return section != null ? section : TemplateConfiguration.configuration.getConfigurationSection("world-configurations.default." + path);
++        ConfigurationSection section = MagellanConfiguration.configuration.getConfigurationSection("world-configurations." + worldName + "." + path);
++        return section != null ? section : MagellanConfiguration.configuration.getConfigurationSection("world-configurations.default." + path);
 +    }
 +
 +    private String getString(String path, String def) {
-+        TemplateConfiguration.configuration.addDefault("world-configurations.default." + path, def);
-+        return TemplateConfiguration.configuration.getString("world-configurations." + worldName + "." + path, TemplateConfiguration.configuration.getString("world-configurations.default." + path));
++        MagellanConfiguration.configuration.addDefault("world-configurations.default." + path, def);
++        return MagellanConfiguration.configuration.getString("world-configurations." + worldName + "." + path, MagellanConfiguration.configuration.getString("world-configurations.default." + path));
 +    }
 +
 +    private int getInt(String path, int def) {
-+        TemplateConfiguration.configuration.addDefault("world-configurations.default." + path, def);
-+        return TemplateConfiguration.configuration.getInt("world-configurations." + worldName + "." + path, TemplateConfiguration.configuration.getInt("world-configurations.default." + path));
++        MagellanConfiguration.configuration.addDefault("world-configurations.default." + path, def);
++        return MagellanConfiguration.configuration.getInt("world-configurations." + worldName + "." + path, MagellanConfiguration.configuration.getInt("world-configurations.default." + path));
 +    }
 +
 +    private boolean getBoolean(String path, boolean def) {
-+        TemplateConfiguration.configuration.addDefault("world-configurations.default." + path, def);
-+        return TemplateConfiguration.configuration.getBoolean("world-configurations." + worldName + "." + path, TemplateConfiguration.configuration.getBoolean("world-configurations.default." + path));
++        MagellanConfiguration.configuration.addDefault("world-configurations.default." + path, def);
++        return MagellanConfiguration.configuration.getBoolean("world-configurations." + worldName + "." + path, MagellanConfiguration.configuration.getBoolean("world-configurations.default." + path));
 +    }
 +
 +    private double getDouble(String path, double def) {
-+        TemplateConfiguration.configuration.addDefault("world-configurations.default." + path, def);
-+        return TemplateConfiguration.configuration.getDouble("world-configurations." + worldName + "." + path, TemplateConfiguration.configuration.getDouble("world-configurations.default." + path));
++        MagellanConfiguration.configuration.addDefault("world-configurations.default." + path, def);
++        return MagellanConfiguration.configuration.getDouble("world-configurations." + worldName + "." + path, MagellanConfiguration.configuration.getDouble("world-configurations.default." + path));
 +    }
 +
 +    private double getLong(String path, long def) {
-+        TemplateConfiguration.configuration.addDefault("world-configurations.default." + path, def);
-+        return TemplateConfiguration.configuration.getLong("world-configurations." + worldName + "." + path, TemplateConfiguration.configuration.getLong("world-configurations.default." + path));
++        MagellanConfiguration.configuration.addDefault("world-configurations.default." + path, def);
++        return MagellanConfiguration.configuration.getLong("world-configurations." + worldName + "." + path, MagellanConfiguration.configuration.getLong("world-configurations.default." + path));
 +    }
 +
 +    private <T> List<?> getList(String path, T def) {
-+        TemplateConfiguration.configuration.addDefault("world-configurations.default." + path, def);
-+        return TemplateConfiguration.configuration.getList("world-configurations." + worldName + "." + path, TemplateConfiguration.configuration.getList("world-configurations.default." + path));
++        MagellanConfiguration.configuration.addDefault("world-configurations.default." + path, def);
++        return MagellanConfiguration.configuration.getList("world-configurations." + worldName + "." + path, MagellanConfiguration.configuration.getList("world-configurations.default." + path));
 +    }
 +
 +    private Map<String, Object> getMap(String path, Map<String, Object> def) {
-+        final Map<String, Object> fallback = TemplateConfiguration.getMap("world-configurations.default." + path, def);
-+        final Map<String, Object> value = TemplateConfiguration.getMap("world-configurations." + worldName + "." + path, null);
++        final Map<String, Object> fallback = MagellanConfiguration.getMap("world-configurations.default." + path, def);
++        final Map<String, Object> value = MagellanConfiguration.getMap("world-configurations." + worldName + "." + path, null);
 +        return value.isEmpty() ? fallback : value;
 +    }
-+}
-diff --git a/src/main/java/team/earendel/template/constants/AdventureTextColor.java b/src/main/java/team/earendel/template/constants/AdventureTextColor.java
-new file mode 100644
-index 0000000000000000000000000000000000000000..ecd21af2f2a80f4da53ae0928bf1c5b424161919
---- /dev/null
-+++ b/src/main/java/team/earendel/template/constants/AdventureTextColor.java
-@@ -0,0 +1,22 @@
-+package team.earendel.template.constants;
-+
-+import net.kyori.adventure.text.format.TextColor;
-+
-+public final class AdventureTextColor {
-+    public static final TextColor BLACK = TextColor.color(0x000000);
-+    public static final TextColor DARK_BLUE = TextColor.color(0x0000AA);
-+    public static final TextColor DARK_GREEN = TextColor.color(0x00AA00);
-+    public static final TextColor DARK_AQUA = TextColor.color(0x00AAAA);
-+    public static final TextColor DARK_RED = TextColor.color(0xAA0000);
-+    public static final TextColor DARK_PURPLE = TextColor.color(0xAA00AA);
-+    public static final TextColor GOLD = TextColor.color(0xFFAA00);
-+    public static final TextColor GRAY = TextColor.color(0xAAAAAA);
-+    public static final TextColor DARK_GRAY = TextColor.color(0x555555);
-+    public static final TextColor BLUE = TextColor.color(0x5555FF);
-+    public static final TextColor GREEN = TextColor.color(0x55FF55);
-+    public static final TextColor AQUA = TextColor.color(0x55FFFF);
-+    public static final TextColor RED = TextColor.color(0xFF5555);
-+    public static final TextColor LIGHT_PURPLE = TextColor.color(0xFF55FF);
-+    public static final TextColor YELLOW = TextColor.color(0xFFFF55);
-+    public static final TextColor WHITE = TextColor.color(0xFFFFFF);
 +}

@@ -61,7 +61,7 @@ subprojects {
 }
 
 paperweight {
-    serverProject.set(project(":template-server"))
+    serverProject.set(project(":magellan-server"))
 
     remapRepo.set("https://maven.fabricmc.net/")
     decompileRepo.set("https://files.minecraftforge.net/maven/")
@@ -69,10 +69,10 @@ paperweight {
     usePaperUpstream(providers.gradleProperty("paperCommit")) {
         withPaperPatcher {
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
-            apiOutputDir.set(layout.projectDirectory.dir("Template-API"))
+            apiOutputDir.set(layout.projectDirectory.dir("Magellan-API"))
 
             serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
-            serverOutputDir.set(layout.projectDirectory.dir("Template-Server"))
+            serverOutputDir.set(layout.projectDirectory.dir("Magellan-Server"))
         }
     }
 }

@@ -7,8 +7,8 @@ pluginManagement {
     }
 }
 
-rootProject.name = "template"
-for (name in listOf("Template-API", "Template-Server")) {
+rootProject.name = "magellan"
+for (name in listOf("Magellan-API", "Magellan-Server")) {
     val projName = name.toLowerCase(Locale.ENGLISH)
     include(projName)
     findProject(":$projName")!!.projectDir = file(name)
