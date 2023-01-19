@@ -68,7 +68,7 @@ index c2dca89291361d60cbf160cab77749cb0130035a..a6a95961237ff98ed4998ebea22a02d8
 +    // Magellan end
  }
 diff --git a/src/main/java/io/papermc/paper/configuration/InnerClassFieldDiscoverer.java b/src/main/java/io/papermc/paper/configuration/InnerClassFieldDiscoverer.java
-index a0aa1f1a7adf986d500a2135aa42e138aa3c4f08..355ea9c69649baa37864d4e6433d1423012c865f 100644
+index a0aa1f1a7adf986d500a2135aa42e138aa3c4f08..b3c9e461c24b0fcfcdfb2c0936c34bdc904c7649 100644
 --- a/src/main/java/io/papermc/paper/configuration/InnerClassFieldDiscoverer.java
 +++ b/src/main/java/io/papermc/paper/configuration/InnerClassFieldDiscoverer.java
 @@ -17,7 +17,7 @@ import java.util.Map;
@@ -90,10 +90,10 @@ index a0aa1f1a7adf986d500a2135aa42e138aa3c4f08..355ea9c69649baa37864d4e6433d1423
      }
 +
 +    // Magellan start
-+    public static FieldDiscoverer<?> magllanLevelConfiguration(Configurations.ContextMap contextMap) {
++    public static FieldDiscoverer<?> magellanLevelConfiguration(Configurations.ContextMap contextMap) {
 +        final Map<Class<?>, Object> overrides = Map.of(
-+                team.earendel.magllan.configurations.LevelConfigurations.class,
-+                new team.earendel.magllan.configurations.LevelConfigurations(
++                team.earendel.magellan.configurations.LevelConfigurations.class,
++                new team.earendel.magellan.configurations.LevelConfigurations(
 +                        contextMap.require(Configurations.WORLD_KEY)
 +                )
 +        );
@@ -167,14 +167,14 @@ index 9fde9ccb5d069ddce8dd837ef1bc68b93ce66434..597a8b4523bfede104d3f0d2359ee124
 +    // Magellan end
  }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6bf4a17ad78848e49b6672819cd9f0a73e7f2f98..8507ad5a83069bfa7ddb802e2d234be894dc3ff3 100644
+index 6bf4a17ad78848e49b6672819cd9f0a73e7f2f98..a307f25276f76b440657b7ce2e9272fffb3d61a9 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -305,6 +305,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      public final double[] recentTps = new double[ 4 ]; // Purpur
      // Spigot end
      public final io.papermc.paper.configuration.PaperConfigurations paperConfigurations;
-+    public final team.earendel.magllan.configurations.MagellanConfigurations magllanConfigurations;
++    public final team.earendel.magellan.configurations.MagellanConfigurations magellanConfigurations;
      public static long currentTickLong = 0L; // Paper
      public boolean lagging = false; // Purpur
      protected boolean upnp = false; // Purpur
@@ -182,12 +182,12 @@ index 6bf4a17ad78848e49b6672819cd9f0a73e7f2f98..8507ad5a83069bfa7ddb802e2d234be8
          // Paper end
          Runtime.getRuntime().addShutdownHook(new org.bukkit.craftbukkit.util.ServerShutdownThread(this));
          this.paperConfigurations = services.paperConfigurations(); // Paper
-+        this.magllanConfigurations = services.magllanConfigurations();
++        this.magellanConfigurations = services.magellanConfigurations();
      }
      // CraftBukkit end
  
 diff --git a/src/main/java/net/minecraft/server/Services.java b/src/main/java/net/minecraft/server/Services.java
-index ef6ff78af2ae747e939895b82ee9d11c75012dcd..d39db85d177e32210b7e3c8d3c55bc749aebcdf0 100644
+index ef6ff78af2ae747e939895b82ee9d11c75012dcd..fa3ad152fdff6d0a23d0aadb53e711c4d47c86fb 100644
 --- a/src/main/java/net/minecraft/server/Services.java
 +++ b/src/main/java/net/minecraft/server/Services.java
 @@ -8,10 +8,10 @@ import net.minecraft.server.players.GameProfileCache;
@@ -195,7 +195,7 @@ index ef6ff78af2ae747e939895b82ee9d11c75012dcd..d39db85d177e32210b7e3c8d3c55bc74
  
  // Paper start
 -public record Services(MinecraftSessionService sessionService, SignatureValidator serviceSignatureValidator, GameProfileRepository profileRepository, GameProfileCache profileCache, @javax.annotation.Nullable io.papermc.paper.configuration.PaperConfigurations paperConfigurations) {
-+public record Services(MinecraftSessionService sessionService, SignatureValidator serviceSignatureValidator, GameProfileRepository profileRepository, GameProfileCache profileCache, @javax.annotation.Nullable io.papermc.paper.configuration.PaperConfigurations paperConfigurations, @javax.annotation.Nullable team.earendel.magllan.configurations.MagellanConfigurations magllanConfigurations) { // Magellan
++public record Services(MinecraftSessionService sessionService, SignatureValidator serviceSignatureValidator, GameProfileRepository profileRepository, GameProfileCache profileCache, @javax.annotation.Nullable io.papermc.paper.configuration.PaperConfigurations paperConfigurations, @javax.annotation.Nullable team.earendel.magellan.configurations.MagellanConfigurations magellanConfigurations) { // Magellan
  
      public Services(MinecraftSessionService sessionService, SignatureValidator signatureValidator, GameProfileRepository profileRepository, GameProfileCache profileCache) {
 -        this(sessionService, signatureValidator, profileRepository, profileCache, null);
@@ -210,8 +210,8 @@ index ef6ff78af2ae747e939895b82ee9d11c75012dcd..d39db85d177e32210b7e3c8d3c55bc74
 +
 +    // Magellan start
 +    @Override
-+    public team.earendel.magllan.configurations.MagellanConfigurations magllanConfigurations() {
-+        return java.util.Objects.requireNonNull(this.magllanConfigurations);
++    public team.earendel.magellan.configurations.MagellanConfigurations magellanConfigurations() {
++        return java.util.Objects.requireNonNull(this.magellanConfigurations);
 +    }
 +    // Magellan end
 +
@@ -224,16 +224,16 @@ index ef6ff78af2ae747e939895b82ee9d11c75012dcd..d39db85d177e32210b7e3c8d3c55bc74
          io.papermc.paper.configuration.PaperConfigurations paperConfigurations = io.papermc.paper.configuration.PaperConfigurations.setup(legacyConfigPath, configDirPath, rootDirectory.toPath(), (File) optionSet.valueOf("spigot-settings"));
 -        return new Services(minecraftSessionService, signatureValidator, gameProfileRepository, gameProfileCache, paperConfigurations);
 +        // Magellan start
-+        final java.nio.file.Path legacyMagellanConfigurationPath = ((File) optionSet.valueOf("magllan-configurations")).toPath();
-+        final java.nio.file.Path magllanConfigurationDirPath = ((File) optionSet.valueOf("magllan-configurations-directory")).toPath();
-+        team.earendel.magllan.configurations.MagellanConfigurations magllanConfigurations = team.earendel.magllan.configurations.MagellanConfigurations.setup(legacyMagellanConfigurationPath, magllanConfigurationDirPath);
-+        return new Services(minecraftSessionService, signatureValidator, gameProfileRepository, gameProfileCache, paperConfigurations, magllanConfigurations);
++        final java.nio.file.Path legacyMagellanConfigurationPath = ((File) optionSet.valueOf("magellan-configurations")).toPath();
++        final java.nio.file.Path magellanConfigurationDirPath = ((File) optionSet.valueOf("magellan-configurations-directory")).toPath();
++        team.earendel.magellan.configurations.MagellanConfigurations magellanConfigurations = team.earendel.magellan.configurations.MagellanConfigurations.setup(legacyMagellanConfigurationPath, magellanConfigurationDirPath);
++        return new Services(minecraftSessionService, signatureValidator, gameProfileRepository, gameProfileCache, paperConfigurations, magellanConfigurations);
 +        // Magellan end
          // Paper end
      }
  }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 46858fb57f122033a68aeb4ad3943132a677fb46..fff785c2b8feae2f6ed8f85af0894c5e70283f16 100644
+index 46858fb57f122033a68aeb4ad3943132a677fb46..3e496a0eb88f2e54694a128eb1420adbbbc80c48 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -208,6 +208,10 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -241,8 +241,8 @@ index 46858fb57f122033a68aeb4ad3943132a677fb46..fff785c2b8feae2f6ed8f85af0894c5e
          paperConfigurations.initializeGlobalConfiguration();
          paperConfigurations.initializeWorldDefaultsConfiguration();
 +        // Magellan start
-+        magllanConfigurations.initializeGlobalConfiguration();
-+        magllanConfigurations.initializeWorldDefaultsConfiguration();
++        magellanConfigurations.initializeGlobalConfiguration();
++        magellanConfigurations.initializeWorldDefaultsConfiguration();
 +        // Magellan end
          // Paper start - moved up to right after PlayerList creation but before file load/save
          if (this.convertOldUsers()) {
@@ -251,12 +251,12 @@ index 46858fb57f122033a68aeb4ad3943132a677fb46..fff785c2b8feae2f6ed8f85af0894c5e
          org.spigotmc.WatchdogThread.doStart(org.spigotmc.SpigotConfig.timeoutTime, org.spigotmc.SpigotConfig.restartOnCrash);
          thread.start(); // Paper - start console thread after MinecraftServer.console & PaperConfig are initialized
          io.papermc.paper.command.PaperCommands.registerCommands(this);
-+        team.earendel.magllan.commands.MagellanCommands.registerCommands(this);
++        team.earendel.magellan.commands.MagellanCommands.registerCommands(this);
          com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics();
          // Purpur start
          try {
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index b396a329e753f42b3878736b6b14bafda02d3744..1938f0875fff8653bead4dc38fccef60ad1e739c 100644
+index b396a329e753f42b3878736b6b14bafda02d3744..7b235d1bb542f19e4c0856606555e583966284d8 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -530,7 +530,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -264,12 +264,12 @@ index b396a329e753f42b3878736b6b14bafda02d3744..1938f0875fff8653bead4dc38fccef60
          // Holder holder = worlddimension.type(); // CraftBukkit - decompile error
          // Objects.requireNonNull(minecraftserver); // CraftBukkit - decompile error
 -        super(iworlddataserver, resourcekey, worlddimension.type(), minecraftserver::getProfiler, false, flag, i, minecraftserver.getMaxChainedNeighborUpdates(), gen, biomeProvider, env, spigotConfig -> minecraftserver.paperConfigurations.createWorldConfig(io.papermc.paper.configuration.PaperConfigurations.createWorldContextMap(convertable_conversionsession.levelDirectory.path(), iworlddataserver.getLevelName(), resourcekey.location(), spigotConfig)), executor); // Paper - Async-Anti-Xray - Pass executor
-+        super(iworlddataserver, resourcekey, worlddimension.type(), minecraftserver::getProfiler, false, flag, i, minecraftserver.getMaxChainedNeighborUpdates(), gen, biomeProvider, env, spigotConfig -> minecraftserver.paperConfigurations.createWorldConfig(io.papermc.paper.configuration.PaperConfigurations.createWorldContextMap(convertable_conversionsession.levelDirectory.path(), iworlddataserver.getLevelName(), resourcekey.location(), spigotConfig)), spigotConfig -> minecraftserver.magllanConfigurations.createWorldConfig(io.papermc.paper.configuration.PaperConfigurations.createWorldContextMap(convertable_conversionsession.levelDirectory.path(), iworlddataserver.getLevelName(), resourcekey.location(), spigotConfig)), executor); // Paper - Async-Anti-Xray - Pass executor // Magellan
++        super(iworlddataserver, resourcekey, worlddimension.type(), minecraftserver::getProfiler, false, flag, i, minecraftserver.getMaxChainedNeighborUpdates(), gen, biomeProvider, env, spigotConfig -> minecraftserver.paperConfigurations.createWorldConfig(io.papermc.paper.configuration.PaperConfigurations.createWorldContextMap(convertable_conversionsession.levelDirectory.path(), iworlddataserver.getLevelName(), resourcekey.location(), spigotConfig)), spigotConfig -> minecraftserver.magellanConfigurations.createWorldConfig(io.papermc.paper.configuration.PaperConfigurations.createWorldContextMap(convertable_conversionsession.levelDirectory.path(), iworlddataserver.getLevelName(), resourcekey.location(), spigotConfig)), executor); // Paper - Async-Anti-Xray - Pass executor // Magellan
          this.pvpMode = minecraftserver.isPvpAllowed();
          this.convertable = convertable_conversionsession;
          this.uuid = WorldUUID.getUUID(convertable_conversionsession.levelDirectory.path().toFile());
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 9bcd6ddcbaf00a0207ad3acd38d8f8db34f53f03..d97a5587025d05bd63faa3ca697f362f05781185 100644
+index 9bcd6ddcbaf00a0207ad3acd38d8f8db34f53f03..943a092229c523b6fa825c460a0df7e4f5dbb2e4 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -171,7 +171,12 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -278,9 +278,9 @@ index 9bcd6ddcbaf00a0207ad3acd38d8f8db34f53f03..d97a5587025d05bd63faa3ca697f362f
      // Paper end
 -
 +    // Magellan start
-+    private final team.earendel.magllan.configurations.LevelConfigurations magllanLevelConfiguration;
-+    public team.earendel.magllan.configurations.LevelConfigurations magllanLevelConfiguration() {
-+        return this.magllanLevelConfiguration;
++    private final team.earendel.magellan.configurations.LevelConfigurations magellanLevelConfiguration;
++    public team.earendel.magellan.configurations.LevelConfigurations magellanLevelConfiguration() {
++        return this.magellanLevelConfiguration;
 +    }
 +    // Magellan end
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
@@ -291,22 +291,22 @@ index 9bcd6ddcbaf00a0207ad3acd38d8f8db34f53f03..d97a5587025d05bd63faa3ca697f362f
      // Pufferfish end
  
 -    protected Level(WritableLevelData worlddatamutable, ResourceKey<Level> resourcekey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean flag, boolean flag1, long i, int j, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env, java.util.function.Function<org.spigotmc.SpigotWorldConfig, io.papermc.paper.configuration.WorldConfiguration> paperWorldConfigCreator, java.util.concurrent.Executor executor) { // Paper - Async-Anti-Xray - Pass executor
-+    protected Level(WritableLevelData worlddatamutable, ResourceKey<Level> resourcekey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean flag, boolean flag1, long i, int j, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env, java.util.function.Function<org.spigotmc.SpigotWorldConfig, io.papermc.paper.configuration.WorldConfiguration> paperWorldConfigCreator, java.util.function.Function<org.spigotmc.SpigotWorldConfig, team.earendel.magllan.configurations.LevelConfigurations> magllanLevelConfigurationCreator, java.util.concurrent.Executor executor) { // Paper - Async-Anti-Xray - Pass executor
++    protected Level(WritableLevelData worlddatamutable, ResourceKey<Level> resourcekey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean flag, boolean flag1, long i, int j, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env, java.util.function.Function<org.spigotmc.SpigotWorldConfig, io.papermc.paper.configuration.WorldConfiguration> paperWorldConfigCreator, java.util.function.Function<org.spigotmc.SpigotWorldConfig, team.earendel.magellan.configurations.LevelConfigurations> magellanLevelConfigurationCreator, java.util.concurrent.Executor executor) { // Paper - Async-Anti-Xray - Pass executor
          this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
-+        this.magllanLevelConfiguration = magllanLevelConfigurationCreator.apply(this.spigotConfig); // Magellan
++        this.magellanLevelConfiguration = magellanLevelConfigurationCreator.apply(this.spigotConfig); // Magellan
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
          this.generator = gen;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 67c737cc1f504a572ce0c96b60ca256b2066406f..91c1459c74f617517ad0199c7221d85d8b1bea7a 100644
+index 67c737cc1f504a572ce0c96b60ca256b2066406f..27d2e2a46f9e578694ae1941bd683bd4408109d7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1025,6 +1025,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
-+        this.console.magllanConfigurations.reloadConfigurations(this.console); // Magellan
++        this.console.magellanConfigurations.reloadConfigurations(this.console); // Magellan
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
@@ -317,7 +317,7 @@ index 67c737cc1f504a572ce0c96b60ca256b2066406f..91c1459c74f617517ad0199c7221d85d
 +        // Magellan start
 +        @Override
 +        public YamlConfiguration getMagellanConfiguration() {
-+            return CraftServer.this.console.magllanConfigurations.createLegacyObject(CraftServer.this.console);
++            return CraftServer.this.console.magellanConfigurations.createLegacyObject(CraftServer.this.console);
 +        }
 +        // Magellan end
 +
@@ -325,7 +325,7 @@ index 67c737cc1f504a572ce0c96b60ca256b2066406f..91c1459c74f617517ad0199c7221d85d
          @Override
          public YamlConfiguration getPurpurConfig() {
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 576cd8e20982bb20d10213b6c7a229428eec1c2f..cdecacbe4c21fd8b2c6e4b8f4a1159462686e0de 100644
+index 576cd8e20982bb20d10213b6c7a229428eec1c2f..8cb537fd092e6eddb62c7d760d1b01da2ac24c2b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -166,6 +166,19 @@ public class Main {
@@ -333,28 +333,28 @@ index 576cd8e20982bb20d10213b6c7a229428eec1c2f..cdecacbe4c21fd8b2c6e4b8f4a115946
                  // Paper end
  
 +                // Magellan start
-+                acceptsAll(asList("magllan-dir", "magllan-configurations-directory"), "Directory for Magellan configurations")
++                acceptsAll(asList("magellan-dir", "magellan-configurations-directory"), "Directory for Magellan configurations")
 +                        .withRequiredArg()
 +                        .ofType(File.class)
 +                        .defaultsTo(new File(io.papermc.paper.configuration.PaperConfigurations.CONFIG_DIR))
 +                        .describedAs("Config directory");
-+                acceptsAll(asList("magllan", "magllan-configurations"), "File for Magellan configurations")
++                acceptsAll(asList("magellan", "magellan-configurations"), "File for Magellan configurations")
 +                        .withRequiredArg()
 +                        .ofType(File.class)
-+                        .defaultsTo(new File("magllan.yml"))
++                        .defaultsTo(new File("magellan.yml"))
 +                        .describedAs("Yml file");
 +                // Magellan end
 +
                  // Purpur Start
                  acceptsAll(asList("purpur", "purpur-settings"), "File for purpur settings")
                      .withRequiredArg()
-diff --git a/src/main/java/team/earendel/magllan/commands/MagellanCommand.java b/src/main/java/team/earendel/magllan/commands/MagellanCommand.java
+diff --git a/src/main/java/team/earendel/magellan/commands/MagellanCommand.java b/src/main/java/team/earendel/magellan/commands/MagellanCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..2a8b333d8e84b7bbcf351e13ebc0a9e26a5f4c53
+index 0000000000000000000000000000000000000000..fb187e73346c7c5f0da3c7bb84baab60a6d50c80
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/commands/MagellanCommand.java
++++ b/src/main/java/team/earendel/magellan/commands/MagellanCommand.java
 @@ -0,0 +1,127 @@
-+package team.earendel.magllan.commands;
++package team.earendel.magellan.commands;
 +
 +import io.papermc.paper.command.CommandUtil;
 +import it.unimi.dsi.fastutil.Pair;
@@ -370,9 +370,9 @@ index 0000000000000000000000000000000000000000..2a8b333d8e84b7bbcf351e13ebc0a9e2
 +import org.checkerframework.checker.nullness.qual.NonNull;
 +import org.checkerframework.checker.nullness.qual.Nullable;
 +import org.checkerframework.framework.qual.DefaultQualifier;
-+import team.earendel.magllan.commands.subcommands.MagellanSubCommand;
-+import team.earendel.magllan.commands.subcommands.ReloadCommand;
-+import team.earendel.magllan.commands.subcommands.VersionCommand;
++import team.earendel.magellan.commands.subcommands.MagellanSubCommand;
++import team.earendel.magellan.commands.subcommands.ReloadCommand;
++import team.earendel.magellan.commands.subcommands.VersionCommand;
 +
 +import java.util.*;
 +import java.util.stream.Collectors;
@@ -410,11 +410,11 @@ index 0000000000000000000000000000000000000000..2a8b333d8e84b7bbcf351e13ebc0a9e2
 +        final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 +
 +        final List<String> permissions = new ArrayList<>();
-+        permissions.add("bukkit.command.magllan");
-+        permissions.addAll(SUB_COMMANDS.keySet().stream().map(s -> "bukkit.command.magllan." + s).toList());
++        permissions.add("bukkit.command.magellan");
++        permissions.addAll(SUB_COMMANDS.keySet().stream().map(s -> "bukkit.command.magellan." + s).toList());
 +
 +        this.description = "Magellan related commands";
-+        this.usageMessage = String.format("/magllan [%s]", String.join("|", SUB_COMMANDS.keySet()));
++        this.usageMessage = String.format("/magellan [%s]", String.join("|", SUB_COMMANDS.keySet()));
 +        this.setPermission(String.join(";", permissions));
 +
 +        for (final String perm : permissions)
@@ -474,20 +474,20 @@ index 0000000000000000000000000000000000000000..2a8b333d8e84b7bbcf351e13ebc0a9e2
 +    }
 +
 +    private static boolean testPermission(final CommandSender sender, final String permission) {
-+        if (sender.hasPermission("bukkit.command.magllan." + permission) || sender.hasPermission("bukkit.command.magllan"))
++        if (sender.hasPermission("bukkit.command.magellan." + permission) || sender.hasPermission("bukkit.command.magellan"))
 +            return true;
 +
 +        sender.sendMessage(Bukkit.permissionMessage());
 +        return false;
 +    }
 +}
-diff --git a/src/main/java/team/earendel/magllan/commands/MagellanCommands.java b/src/main/java/team/earendel/magllan/commands/MagellanCommands.java
+diff --git a/src/main/java/team/earendel/magellan/commands/MagellanCommands.java b/src/main/java/team/earendel/magellan/commands/MagellanCommands.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ce91934a8f5944091863409ef8e95ac7144f30c8
+index 0000000000000000000000000000000000000000..47ce9a971b67a843d6e548ae6c165f3b2df84639
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/commands/MagellanCommands.java
++++ b/src/main/java/team/earendel/magellan/commands/MagellanCommands.java
 @@ -0,0 +1,25 @@
-+package team.earendel.magllan.commands;
++package team.earendel.magellan.commands;
 +
 +import net.minecraft.server.MinecraftServer;
 +import org.bukkit.command.Command;
@@ -504,7 +504,7 @@ index 0000000000000000000000000000000000000000..ce91934a8f5944091863409ef8e95ac7
 +
 +    private static final Map<String, Command> COMMANDS = new HashMap<>();
 +    static {
-+        COMMANDS.put("magllan", new MagellanCommand("magllan"));
++        COMMANDS.put("magellan", new MagellanCommand("magellan"));
 +    }
 +
 +    public static void registerCommands(final MinecraftServer server) {
@@ -512,13 +512,13 @@ index 0000000000000000000000000000000000000000..ce91934a8f5944091863409ef8e95ac7
 +    }
 +
 +}
-diff --git a/src/main/java/team/earendel/magllan/commands/subcommands/MagellanSubCommand.java b/src/main/java/team/earendel/magllan/commands/subcommands/MagellanSubCommand.java
+diff --git a/src/main/java/team/earendel/magellan/commands/subcommands/MagellanSubCommand.java b/src/main/java/team/earendel/magellan/commands/subcommands/MagellanSubCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..9d5da687db9ad0b9fb9f3aefebba11fecdf800e0
+index 0000000000000000000000000000000000000000..2fbf18b86237883138b3d64c01e640824f08fee7
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/commands/subcommands/MagellanSubCommand.java
++++ b/src/main/java/team/earendel/magellan/commands/subcommands/MagellanSubCommand.java
 @@ -0,0 +1,17 @@
-+package team.earendel.magllan.commands.subcommands;
++package team.earendel.magellan.commands.subcommands;
 +
 +import org.bukkit.command.CommandSender;
 +import org.checkerframework.checker.nullness.qual.NonNull;
@@ -535,13 +535,13 @@ index 0000000000000000000000000000000000000000..9d5da687db9ad0b9fb9f3aefebba11fe
 +        return Collections.emptyList();
 +    }
 +}
-diff --git a/src/main/java/team/earendel/magllan/commands/subcommands/ReloadCommand.java b/src/main/java/team/earendel/magllan/commands/subcommands/ReloadCommand.java
+diff --git a/src/main/java/team/earendel/magellan/commands/subcommands/ReloadCommand.java b/src/main/java/team/earendel/magellan/commands/subcommands/ReloadCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..aa69fd2a75b3b8066bffda3881034a9d69b8f16b
+index 0000000000000000000000000000000000000000..bf047ce32582b77b348903dd5f2553770dc1aa0d
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/commands/subcommands/ReloadCommand.java
++++ b/src/main/java/team/earendel/magellan/commands/subcommands/ReloadCommand.java
 @@ -0,0 +1,28 @@
-+package team.earendel.magllan.commands.subcommands;
++package team.earendel.magellan.commands.subcommands;
 +
 +import net.kyori.adventure.text.format.NamedTextColor;
 +import net.minecraft.server.MinecraftServer;
@@ -563,19 +563,19 @@ index 0000000000000000000000000000000000000000..aa69fd2a75b3b8066bffda3881034a9d
 +        Command.broadcastCommandMessage(sender, text("If you encounter any issues please use the /stop command to restart your server.", NamedTextColor.RED));
 +
 +        MinecraftServer server = ((CraftServer) sender.getServer()).getServer();
-+        server.magllanConfigurations.reloadConfigurations(server);
++        server.magellanConfigurations.reloadConfigurations(server);
 +        server.server.reloadCount++;
 +
 +        Command.broadcastCommandMessage(sender, text("Successfully reloaded Magellan configuration files.", NamedTextColor.GREEN));
 +    }
 +}
-diff --git a/src/main/java/team/earendel/magllan/commands/subcommands/VersionCommand.java b/src/main/java/team/earendel/magllan/commands/subcommands/VersionCommand.java
+diff --git a/src/main/java/team/earendel/magellan/commands/subcommands/VersionCommand.java b/src/main/java/team/earendel/magellan/commands/subcommands/VersionCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..6ccf83870ef63bd046f1fd269c724cb45765b54f
+index 0000000000000000000000000000000000000000..43147bef990a1ca041bce8d94e7abc5b786a0bac
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/commands/subcommands/VersionCommand.java
++++ b/src/main/java/team/earendel/magellan/commands/subcommands/VersionCommand.java
 @@ -0,0 +1,15 @@
-+package team.earendel.magllan.commands.subcommands;
++package team.earendel.magellan.commands.subcommands;
 +
 +import net.minecraft.server.MinecraftServer;
 +import org.bukkit.command.Command;
@@ -586,17 +586,17 @@ index 0000000000000000000000000000000000000000..6ccf83870ef63bd046f1fd269c724cb4
 +    @Override
 +    public boolean execute(CommandSender sender, String subCommand, String[] args) {
 +        final @Nullable Command ver = MinecraftServer.getServer().server.getCommandMap().getCommand("version");
-+        if (ver != null) ver.execute(sender, "magllan", new String[0]);
++        if (ver != null) ver.execute(sender, "magellan", new String[0]);
 +        return true;
 +    }
 +}
-diff --git a/src/main/java/team/earendel/magllan/configurations/GlobalConfiguration.java b/src/main/java/team/earendel/magllan/configurations/GlobalConfiguration.java
+diff --git a/src/main/java/team/earendel/magellan/configurations/GlobalConfiguration.java b/src/main/java/team/earendel/magellan/configurations/GlobalConfiguration.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..72d0c965bebbfdea3cedb9584a0ed765e5dea623
+index 0000000000000000000000000000000000000000..d16f47f5e683084366f2c1527070045b739d51bf
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/configurations/GlobalConfiguration.java
++++ b/src/main/java/team/earendel/magellan/configurations/GlobalConfiguration.java
 @@ -0,0 +1,22 @@
-+package team.earendel.magllan.configurations;
++package team.earendel.magellan.configurations;
 +
 +import io.papermc.paper.configuration.Configuration;
 +import io.papermc.paper.configuration.ConfigurationPart;
@@ -618,13 +618,13 @@ index 0000000000000000000000000000000000000000..72d0c965bebbfdea3cedb9584a0ed765
 +    @Setting(Configuration.VERSION_FIELD)
 +    public int version = CURRENT_VERSION;
 +}
-diff --git a/src/main/java/team/earendel/magllan/configurations/LevelConfigurations.java b/src/main/java/team/earendel/magllan/configurations/LevelConfigurations.java
+diff --git a/src/main/java/team/earendel/magellan/configurations/LevelConfigurations.java b/src/main/java/team/earendel/magellan/configurations/LevelConfigurations.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..8cfd02ec2a4faef798fd0447abdc60223455f466
+index 0000000000000000000000000000000000000000..fdcb1f45101c241004844b7b43300bb37020ed6b
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/configurations/LevelConfigurations.java
++++ b/src/main/java/team/earendel/magellan/configurations/LevelConfigurations.java
 @@ -0,0 +1,24 @@
-+package team.earendel.magllan.configurations;
++package team.earendel.magellan.configurations;
 +
 +import io.papermc.paper.configuration.Configuration;
 +import io.papermc.paper.configuration.ConfigurationPart;
@@ -648,13 +648,13 @@ index 0000000000000000000000000000000000000000..8cfd02ec2a4faef798fd0447abdc6022
 +    @Setting(Configuration.VERSION_FIELD)
 +    public int version = CURRENT_VERSION;
 +}
-diff --git a/src/main/java/team/earendel/magllan/configurations/MagellanConfigurations.java b/src/main/java/team/earendel/magllan/configurations/MagellanConfigurations.java
+diff --git a/src/main/java/team/earendel/magellan/configurations/MagellanConfigurations.java b/src/main/java/team/earendel/magellan/configurations/MagellanConfigurations.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..8bd85584604801d0c72b45a9a87ad9f87f1215db
+index 0000000000000000000000000000000000000000..5d716b0320cfbe5ac63370596a93a85508eb1791
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/configurations/MagellanConfigurations.java
++++ b/src/main/java/team/earendel/magellan/configurations/MagellanConfigurations.java
 @@ -0,0 +1,332 @@
-+package team.earendel.magllan.configurations;
++package team.earendel.magellan.configurations;
 +
 +import com.google.common.collect.Table;
 +import com.mojang.logging.LogUtils;
@@ -706,9 +706,9 @@ index 0000000000000000000000000000000000000000..8bd85584604801d0c72b45a9a87ad9f8
 +public class MagellanConfigurations extends Configurations<GlobalConfiguration, LevelConfigurations> {
 +
 +    private static final Logger LOGGER = LogUtils.getLogger();
-+    static final String GLOBAL_CONFIGURATION_FILE_NAME= "magllan-global.yml";
-+    static final String LEVEL_DEFAULT_CONFIGURATION_FILE_NAME = "magllan-level-dafaults.yml";
-+    static final String LEVEL_CONFIGURATION_FILE_NAME = "magllan-configuration.yml";
++    static final String GLOBAL_CONFIGURATION_FILE_NAME= "magellan-global.yml";
++    static final String LEVEL_DEFAULT_CONFIGURATION_FILE_NAME = "magellan-level-dafaults.yml";
++    static final String LEVEL_CONFIGURATION_FILE_NAME = "magellan-configuration.yml";
 +
 +    private static final String HEADER_START = """
 +            # English
@@ -860,7 +860,7 @@ index 0000000000000000000000000000000000000000..8bd85584604801d0c72b45a9a87ad9f8
 +        return super.createWorldObjectMapperFactoryBuilder(contextMap)
 +                .addNodeResolver(new RequiresSpigotInitialization.Factory(contextMap.require(PaperConfigurations.SPIGOT_WORLD_CONFIG_CONTEXT_KEY).get()))
 +                .addNodeResolver(new NestedSetting.Factory())
-+                .addDiscoverer(InnerClassFieldDiscoverer.magllanLevelConfiguration(contextMap));
++                .addDiscoverer(InnerClassFieldDiscoverer.magellanLevelConfiguration(contextMap));
 +    }
 +
 +    @Override
@@ -980,19 +980,19 @@ index 0000000000000000000000000000000000000000..8bd85584604801d0c72b45a9a87ad9f8
 +            this.initializeGlobalConfiguration(reloader(this.globalConfigClass, GlobalConfiguration.get()));
 +            this.initializeWorldDefaultsConfiguration();
 +            for (ServerLevel level : server.getAllLevels())
-+                this.createWorldConfig(PaperConfigurations.createWorldContextMap(level), reloader(this.worldConfigClass, level.magllanLevelConfiguration()));
++                this.createWorldConfig(PaperConfigurations.createWorldContextMap(level), reloader(this.worldConfigClass, level.magellanLevelConfiguration()));
 +        } catch (Exception e) {
 +            throw new RuntimeException("Could not reload Magellan configuration files", e);
 +        }
 +    }
 +}
-diff --git a/src/main/java/team/earendel/magllan/configurations/RemovedConfigurations.java b/src/main/java/team/earendel/magllan/configurations/RemovedConfigurations.java
+diff --git a/src/main/java/team/earendel/magellan/configurations/RemovedConfigurations.java b/src/main/java/team/earendel/magellan/configurations/RemovedConfigurations.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..d438254f4b9ae8b7ad30fe9d7dac36b30b6e5550
+index 0000000000000000000000000000000000000000..753ed62bee111f975d7aa1fde17ac8b0fae1a56b
 --- /dev/null
-+++ b/src/main/java/team/earendel/magllan/configurations/RemovedConfigurations.java
++++ b/src/main/java/team/earendel/magellan/configurations/RemovedConfigurations.java
 @@ -0,0 +1,11 @@
-+package team.earendel.magllan.configurations;
++package team.earendel.magellan.configurations;
 +
 +import org.spongepowered.configurate.NodePath;
 +
@@ -1004,24 +1004,24 @@ index 0000000000000000000000000000000000000000..d438254f4b9ae8b7ad30fe9d7dac36b3
 +
 +}
 diff --git a/src/test/java/org/bukkit/support/AbstractTestingBase.java b/src/test/java/org/bukkit/support/AbstractTestingBase.java
-index 084c48ffabac2cd753609add745203e8a55bc09e..deea157afff1c7af1450edb4503f8aba3aca4ff0 100644
+index 084c48ffabac2cd753609add745203e8a55bc09e..ee23b6399c9c54b554b5e5b6730aefc26b617060 100644
 --- a/src/test/java/org/bukkit/support/AbstractTestingBase.java
 +++ b/src/test/java/org/bukkit/support/AbstractTestingBase.java
 @@ -68,6 +68,7 @@ public abstract class AbstractTestingBase {
          DummyServer.setup();
          DummyEnchantments.setup();
          io.papermc.paper.configuration.GlobalConfigTestingBase.setupGlobalConfigForTest(); // Paper
-+        team.earendel.magllan.configurations.GlobalConfigurationTestingBase.setupGlobalConfigurationForTest(); // Magellan
++        team.earendel.magellan.configurations.GlobalConfigurationTestingBase.setupGlobalConfigurationForTest(); // Magellan
  
          ImmutableList.Builder<Material> builder = ImmutableList.builder();
          for (Material m : Material.values()) {
-diff --git a/src/test/java/team/earendel/magllan/configurations/GlobalConfigurationTestingBase.java b/src/test/java/team/earendel/magllan/configurations/GlobalConfigurationTestingBase.java
+diff --git a/src/test/java/team/earendel/magellan/configurations/GlobalConfigurationTestingBase.java b/src/test/java/team/earendel/magellan/configurations/GlobalConfigurationTestingBase.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a7ffb493cb932ba17a520aaf3405426c4370d11d
+index 0000000000000000000000000000000000000000..e9ac0710937392b77592ff5f200bcb1d22ca227e
 --- /dev/null
-+++ b/src/test/java/team/earendel/magllan/configurations/GlobalConfigurationTestingBase.java
++++ b/src/test/java/team/earendel/magellan/configurations/GlobalConfigurationTestingBase.java
 @@ -0,0 +1,18 @@
-+package team.earendel.magllan.configurations;
++package team.earendel.magellan.configurations;
 +
 +import org.spongepowered.configurate.ConfigurationNode;
 +import org.spongepowered.configurate.serialize.SerializationException;
