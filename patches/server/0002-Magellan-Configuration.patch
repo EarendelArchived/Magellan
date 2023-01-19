@@ -208,7 +208,7 @@ index 193487b0944cd4bb200ae621c817708e873d95b5..0a20491fe6dac8184c9bb7d991a031a6
                      .withRequiredArg()
 diff --git a/src/main/java/team/earendel/magellan/commands/MagellanCommand.java b/src/main/java/team/earendel/magellan/commands/MagellanCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..dabb52fd9894a7fe2d7ac66e3e8f45dc497f5dc6
+index 0000000000000000000000000000000000000000..8bd6953a0921bab93a1afe8a9e295f771c68daed
 --- /dev/null
 +++ b/src/main/java/team/earendel/magellan/commands/MagellanCommand.java
 @@ -0,0 +1,126 @@
@@ -267,11 +267,11 @@ index 0000000000000000000000000000000000000000..dabb52fd9894a7fe2d7ac66e3e8f45dc
 +        final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
 +
 +        final List<String> permissions = new ArrayList<>();
-+        permissions.add("bukkit.command.magllan");
-+        permissions.addAll(SUB_COMMANDS.keySet().stream().map(s -> "bukkit.command.magllan." + s).toList());
++        permissions.add("bukkit.command.magellan");
++        permissions.addAll(SUB_COMMANDS.keySet().stream().map(s -> "bukkit.command.magellan." + s).toList());
 +
 +        this.description = "Magellan related commands";
-+        this.usageMessage = String.format("/magllan [%s]", String.join("|", SUB_COMMANDS.keySet()));
++        this.usageMessage = String.format("/magellan [%s]", String.join("|", SUB_COMMANDS.keySet()));
 +        this.setPermission(String.join(";", permissions));
 +
 +        for (final String perm : permissions)
@@ -331,7 +331,7 @@ index 0000000000000000000000000000000000000000..dabb52fd9894a7fe2d7ac66e3e8f45dc
 +    }
 +
 +    private static boolean testPermission(final CommandSender sender, final String permission) {
-+        if (sender.hasPermission("bukkit.command.magllan." + permission) || sender.hasPermission("bukkit.command.magllan"))
++        if (sender.hasPermission("bukkit.command.magellan." + permission) || sender.hasPermission("bukkit.command.magellan"))
 +            return true;
 +
 +        sender.sendMessage(Bukkit.permissionMessage());
@@ -340,7 +340,7 @@ index 0000000000000000000000000000000000000000..dabb52fd9894a7fe2d7ac66e3e8f45dc
 +}
 diff --git a/src/main/java/team/earendel/magellan/commands/MagellanCommands.java b/src/main/java/team/earendel/magellan/commands/MagellanCommands.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..7491635c9979dbc4fc3a7f438da6ec1caba9562b
+index 0000000000000000000000000000000000000000..47ce9a971b67a843d6e548ae6c165f3b2df84639
 --- /dev/null
 +++ b/src/main/java/team/earendel/magellan/commands/MagellanCommands.java
 @@ -0,0 +1,25 @@
@@ -361,7 +361,7 @@ index 0000000000000000000000000000000000000000..7491635c9979dbc4fc3a7f438da6ec1c
 +
 +    private static final Map<String, Command> COMMANDS = new HashMap<>();
 +    static {
-+        COMMANDS.put("magllan", new MagellanCommand("magllan"));
++        COMMANDS.put("magellan", new MagellanCommand("magellan"));
 +    }
 +
 +    public static void registerCommands(final MinecraftServer server) {
@@ -428,7 +428,7 @@ index 0000000000000000000000000000000000000000..bf047ce32582b77b348903dd5f255377
 +}
 diff --git a/src/main/java/team/earendel/magellan/commands/subcommands/VersionCommand.java b/src/main/java/team/earendel/magellan/commands/subcommands/VersionCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..96e4d12a34ce74dad547e094da1d7d882c4daedb
+index 0000000000000000000000000000000000000000..43147bef990a1ca041bce8d94e7abc5b786a0bac
 --- /dev/null
 +++ b/src/main/java/team/earendel/magellan/commands/subcommands/VersionCommand.java
 @@ -0,0 +1,15 @@
@@ -443,7 +443,7 @@ index 0000000000000000000000000000000000000000..96e4d12a34ce74dad547e094da1d7d88
 +    @Override
 +    public boolean execute(CommandSender sender, String subCommand, String[] args) {
 +        final @Nullable Command ver = MinecraftServer.getServer().server.getCommandMap().getCommand("version");
-+        if (ver != null) ver.execute(sender, "magllan", new String[0]);
++        if (ver != null) ver.execute(sender, "magellan", new String[0]);
 +        return true;
 +    }
 +}
@@ -507,7 +507,7 @@ index 0000000000000000000000000000000000000000..fdcb1f45101c241004844b7b43300bb3
 +}
 diff --git a/src/main/java/team/earendel/magellan/configurations/MagellanConfigurations.java b/src/main/java/team/earendel/magellan/configurations/MagellanConfigurations.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..bc786fe91593d4e161051a6708b70b747e117e66
+index 0000000000000000000000000000000000000000..b4a507315b2e3fbb308e5ad575b065fbae5839cf
 --- /dev/null
 +++ b/src/main/java/team/earendel/magellan/configurations/MagellanConfigurations.java
 @@ -0,0 +1,331 @@
@@ -562,9 +562,9 @@ index 0000000000000000000000000000000000000000..bc786fe91593d4e161051a6708b70b74
 +public class MagellanConfigurations extends Configurations<GlobalConfiguration, LevelConfigurations> {
 +
 +    private static final Logger LOGGER = LogUtils.getLogger();
-+    static final String GLOBAL_CONFIGURATION_FILE_NAME= "magllan-global.yml";
-+    static final String LEVEL_DEFAULT_CONFIGURATION_FILE_NAME = "magllan-level-dafaults.yml";
-+    static final String LEVEL_CONFIGURATION_FILE_NAME = "magllan-configuration.yml";
++    static final String GLOBAL_CONFIGURATION_FILE_NAME= "magellan-global.yml";
++    static final String LEVEL_DEFAULT_CONFIGURATION_FILE_NAME = "magellan-level-dafaults.yml";
++    static final String LEVEL_CONFIGURATION_FILE_NAME = "magellan-configuration.yml";
 +
 +    private static final String HEADER_START = """
 +            # English
@@ -716,7 +716,7 @@ index 0000000000000000000000000000000000000000..bc786fe91593d4e161051a6708b70b74
 +        return super.createWorldObjectMapperFactoryBuilder(contextMap)
 +                .addNodeResolver(new RequiresSpigotInitialization.Factory(contextMap.require(PaperConfigurations.SPIGOT_WORLD_CONFIG_CONTEXT_KEY).get()))
 +                .addNodeResolver(new NestedSetting.Factory())
-+                .addDiscoverer(InnerClassFieldDiscoverer.magllanLevelConfiguration(contextMap));
++                .addDiscoverer(InnerClassFieldDiscoverer.magellanLevelConfiguration(contextMap));
 +    }
 +
 +    @Override
