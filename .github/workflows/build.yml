@@ -2,15 +2,15 @@ name: Build Magellan
 
 on:
   push:
-    branches: [ "*/*" ]
+    branch: [ "*" ]
   workflow_dispatch:
 
-env:
-  ORG_NAME: TeamEarendel
+# env:
+#   ORG_NAME: TeamEarendel
 
-  version: 1.19.3
-  branch: ver/1.19.3
-  debug: 'false'
+#   version: 1.19.3
+#   branch: ver/1.19.3
+#   debug: 'false'
 
 jobs:
   release:
@@ -26,11 +26,11 @@ jobs:
       - name: Checkout action
         uses: actions/checkout@v3
 
-      - name: Checkout pages
-        uses: actions/checkout@v3
-        with:
-          path: javadoc
-          ref: gh-pages
+      # - name: Checkout pages
+      #   uses: actions/checkout@v3
+      #   with:
+      #     path: javadoc
+      #     ref: gh-pages
 
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
