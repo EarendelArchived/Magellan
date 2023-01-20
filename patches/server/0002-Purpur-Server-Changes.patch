@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@gmail.com>
-Date: Fri, 20 Jan 2023 11:10:01 +0000
+Date: Fri, 20 Jan 2023 12:52:02 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original: PurpurMC
@@ -4870,7 +4870,7 @@ index 413652284e229a51e3eefe47f239e8fa9a09ccb2..b2e4b5c463ceb19356da18e7fc52d208
                          });
                      }
 diff --git a/src/main/java/net/minecraft/world/entity/Mob.java b/src/main/java/net/minecraft/world/entity/Mob.java
-index 94b45579dc371ee980565aed2f5dee78ebd44427..7bd4e95fcaf3855a4fe412b5898a97d7992caad3 100644
+index 94b45579dc371ee980565aed2f5dee78ebd44427..43cc8e8f07adecef21c70954918b8945a7c3ef62 100644
 --- a/src/main/java/net/minecraft/world/entity/Mob.java
 +++ b/src/main/java/net/minecraft/world/entity/Mob.java
 @@ -65,6 +65,7 @@ import net.minecraft.world.item.ProjectileWeaponItem;
@@ -5119,7 +5119,7 @@ index 94b45579dc371ee980565aed2f5dee78ebd44427..7bd4e95fcaf3855a4fe412b5898a97d7
      }
  
      @Override
-@@ -1728,4 +1755,52 @@ public abstract class Mob extends LivingEntity {
+@@ -1728,4 +1755,56 @@ public abstract class Mob extends LivingEntity {
  
          return itemmonsteregg == null ? null : new ItemStack(itemmonsteregg);
      }
@@ -5130,8 +5130,12 @@ index 94b45579dc371ee980565aed2f5dee78ebd44427..7bd4e95fcaf3855a4fe412b5898a97d7
 +    }
 +
 +    public InteractionResult tryRide(Player player, InteractionHand hand) {
++        return tryRide(player, hand, InteractionResult.PASS);
++    }
++
++    public InteractionResult tryRide(Player player, InteractionHand hand, InteractionResult result) {
 +        if (!isRidable()) {
-+            return InteractionResult.PASS;
++            return result;
 +        }
 +        if (hand != InteractionHand.MAIN_HAND) {
 +            return InteractionResult.PASS;
@@ -14580,7 +14584,7 @@ index 5f407535298a31a34cfe114dd863fd6a9b977707..29c7e33fe961020e5a0007287fe9b663
      }
  
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index 76a9da8209d557b913c49ccd281bf147b9ac4fa4..832469e39901d9ec666ddaf3aff77419f6195b1c 100644
+index 76a9da8209d557b913c49ccd281bf147b9ac4fa4..aed1d9ccffe471b6c2a1d52d2d3d097f6431318b 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
 @@ -139,6 +139,8 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
@@ -14730,7 +14734,7 @@ index 76a9da8209d557b913c49ccd281bf147b9ac4fa4..832469e39901d9ec666ddaf3aff77419
              if (this.isBaby()) {
                  this.setUnhappy();
 -                return InteractionResult.sidedSuccess(this.level.isClientSide);
-+                return tryRide(player, hand); // Purpur
++                return tryRide(player, hand, InteractionResult.sidedSuccess(this.level.isClientSide)); // Purpur
              } else {
                  boolean flag = this.getOffers().isEmpty();
  
@@ -14739,7 +14743,7 @@ index 76a9da8209d557b913c49ccd281bf147b9ac4fa4..832469e39901d9ec666ddaf3aff77419
  
                  if (flag) {
 -                    return InteractionResult.sidedSuccess(this.level.isClientSide);
-+                    return tryRide(player, hand); // Purpur
++                    return tryRide(player, hand, InteractionResult.sidedSuccess(this.level.isClientSide)); // Purpur
                  } else {
 -                    if (!this.level.isClientSide && !this.offers.isEmpty()) {
 +                    if (level.purpurConfig.villagerRidable && itemstack.isEmpty()) return tryRide(player, hand); // Purpur
@@ -14812,7 +14816,7 @@ index ac70c2c03241e73943bd517a8c69dd05e0873634..0318663a824d2a9515f867a075d148c3
      public static final VillagerProfession FISHERMAN = register("fisherman", PoiTypes.FISHERMAN, SoundEvents.VILLAGER_WORK_FISHERMAN);
      public static final VillagerProfession FLETCHER = register("fletcher", PoiTypes.FLETCHER, SoundEvents.VILLAGER_WORK_FLETCHER);
 diff --git a/src/main/java/net/minecraft/world/entity/npc/WanderingTrader.java b/src/main/java/net/minecraft/world/entity/npc/WanderingTrader.java
-index e92e6fb4cf97f4d5406b5b5d5786bfa5fb55f536..6a4983999666c6b59c2c46f194190059574fb9df 100644
+index e92e6fb4cf97f4d5406b5b5d5786bfa5fb55f536..a2ad029160065baa395cfe20fa40881d8252fcb3 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/WanderingTrader.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/WanderingTrader.java
 @@ -66,6 +66,43 @@ public class WanderingTrader extends net.minecraft.world.entity.npc.AbstractVill
@@ -14881,7 +14885,7 @@ index e92e6fb4cf97f4d5406b5b5d5786bfa5fb55f536..6a4983999666c6b59c2c46f194190059
  
              if (this.getOffers().isEmpty()) {
 -                return InteractionResult.sidedSuccess(this.level.isClientSide);
-+                return tryRide(player, hand); // Purpur
++                return tryRide(player, hand, InteractionResult.sidedSuccess(this.level.isClientSide)); // Purpur
              } else {
 -                if (!this.level.isClientSide) {
 +                if (level.purpurConfig.wanderingTraderRidable && itemstack.isEmpty()) return tryRide(player, hand); // Purpur
