@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@gmail.com>
-Date: Fri, 20 Jan 2023 12:52:02 +0000
+Date: Sun, 22 Jan 2023 12:48:21 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original: PurpurMC
@@ -15630,7 +15630,7 @@ index fa0d55946680f1a913493d8a36abe266ace8be52..d662d362d36356a44dd672c25997837a
                  } else if (this.isFuel(itemstack1)) {
                      if (!this.moveItemStackTo(itemstack1, 1, 2, false)) {
 diff --git a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
-index 506d758efbf16da9467f120321d2359a8832e477..7c52c048fb9b265d57f57f0c69796668235a26fd 100644
+index 506d758efbf16da9467f120321d2359a8832e477..05a8a295fe7970255c07efad8b4ab7e9a358bf83 100644
 --- a/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 +++ b/src/main/java/net/minecraft/world/inventory/AnvilMenu.java
 @@ -21,6 +21,13 @@ import org.slf4j.Logger;
@@ -15747,7 +15747,7 @@ index 506d758efbf16da9467f120321d2359a8832e477..7c52c048fb9b265d57f57f0c69796668
 +                            //name = name.replaceAll("(?i)&([0-9a-fr])", "\u00a7$1");
 +                        }
 +                        if (player.hasPermission("purpur.anvil.format")) {
-+                            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)&([l-or])").matcher(name);
++                            java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("(?i)&([k-or])").matcher(name);
 +                            while (matcher.find()) {
 +                                String match = matcher.group(1);
 +                                name = name.replace("&" + match, "\u00a7" + match.toLowerCase(java.util.Locale.ROOT));
@@ -19790,7 +19790,7 @@ index 714afc98b5150907b45a00060be4e41582333204..312a6d90c0a09570aef24c205dc2ff27
 +    // Purpur end - OfflinePlayer API
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6a2ab897c 100644
+index 7930217aa1275c4ae70f180d483a8714d43027e8..4a8aafd341fdad4b5ae326c4759b3381f5061fb5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -251,6 +251,7 @@ import org.bukkit.scoreboard.Criteria;
@@ -19831,7 +19831,7 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
  
          // Register all the Enchantments and PotionTypes now so we can stop new registration immediately after
          Enchantments.SHARPNESS.getClass();
-@@ -433,7 +448,38 @@ public final class CraftServer implements Server {
+@@ -433,7 +448,44 @@ public final class CraftServer implements Server {
              if (!pluginFolder.exists()) {
                  pluginFolder.mkdirs();
              }
@@ -19847,7 +19847,10 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
 +                    if (file.exists()) {
 +                        String fileSha1 = String.format("%040x", new java.math.BigInteger(1, java.security.MessageDigest.getInstance("SHA-1").digest(java.nio.file.Files.readAllBytes(file.toPath()))));
 +                        String sparkSha1;
-+                        try (java.io.BufferedReader reader = new java.io.BufferedReader(new InputStreamReader(new java.net.URL("https://sparkapi.lucko.me/download/bukkit/sha1").openStream()))) {
++                        java.net.URLConnection urlConnection = new java.net.URL("https://sparkapi.lucko.me/download/bukkit/sha1").openConnection();
++                        urlConnection.setReadTimeout(5000);
++                        urlConnection.setConnectTimeout(5000);
++                        try (java.io.BufferedReader reader = new java.io.BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
 +                            sparkSha1 = reader.lines().collect(Collectors.joining(""));
 +                        }
 +
@@ -19857,7 +19860,10 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
 +                    }
 +
 +                    if (shouldDownload) {
-+                        java.nio.file.Files.copy(new java.net.URL("https://sparkapi.lucko.me/download/bukkit").openStream(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
++                        java.net.URLConnection urlConnection = new java.net.URL("https://sparkapi.lucko.me/download/bukkit").openConnection();
++                        urlConnection.setReadTimeout(5000);
++                        urlConnection.setConnectTimeout(5000);
++                        java.nio.file.Files.copy(urlConnection.getInputStream(), file.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 +                    }
 +
 +                    extraJars.add(file);
@@ -19871,7 +19877,7 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
              // Paper end
              for (Plugin plugin : plugins) {
                  try {
-@@ -979,6 +1025,7 @@ public final class CraftServer implements Server {
+@@ -979,6 +1031,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -19879,7 +19885,7 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -994,6 +1041,7 @@ public final class CraftServer implements Server {
+@@ -994,6 +1047,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -19887,7 +19893,7 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -1009,6 +1057,7 @@ public final class CraftServer implements Server {
+@@ -1009,6 +1063,7 @@ public final class CraftServer implements Server {
          this.reloadData();
          org.spigotmc.SpigotConfig.registerCommands(); // Spigot
          io.papermc.paper.command.PaperCommands.registerCommands(this.console); // Paper
@@ -19895,7 +19901,7 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
          this.overrideAllCommandBlockCommands = this.commandsConfiguration.getStringList("command-block-overrides").contains("*");
          this.ignoreVanillaPermissions = this.commandsConfiguration.getBoolean("ignore-vanilla-permissions");
  
-@@ -1450,6 +1499,55 @@ public final class CraftServer implements Server {
+@@ -1450,6 +1505,55 @@ public final class CraftServer implements Server {
          return true;
      }
  
@@ -19951,7 +19957,7 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
      @Override
      public List<Recipe> getRecipesFor(ItemStack result) {
          Validate.notNull(result, "Result cannot be null");
-@@ -2722,6 +2820,7 @@ public final class CraftServer implements Server {
+@@ -2722,6 +2826,7 @@ public final class CraftServer implements Server {
      @Override
      public double[] getTPS() {
          return new double[] {
@@ -19959,7 +19965,7 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
                  net.minecraft.server.MinecraftServer.getServer().tps1.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps5.getAverage(),
                  net.minecraft.server.MinecraftServer.getServer().tps15.getAverage()
-@@ -2768,6 +2867,18 @@ public final class CraftServer implements Server {
+@@ -2768,6 +2873,18 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -19978,7 +19984,7 @@ index 7930217aa1275c4ae70f180d483a8714d43027e8..b69634a5cf57e4086e644819f68638d6
          @Override
          public void restart() {
              org.spigotmc.RestartCommand.restart();
-@@ -2943,4 +3054,16 @@ public final class CraftServer implements Server {
+@@ -2943,4 +3060,16 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
