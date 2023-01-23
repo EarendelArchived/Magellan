@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@gmail.com>
-Date: Mon, 23 Jan 2023 08:14:36 +0000
+Date: Mon, 23 Jan 2023 08:46:53 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original: PurpurMC
@@ -20406,7 +20406,7 @@ index 4d7a2c4c1001aefe9fcd4be8dbcb414f721bfff9..2c7716a9d65ebda209a144b82c2126b6
 +    // Purpur end
  }
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 7c43de6ad6bd7259c6bcb2a55e312e8abfcf546b..b41a8f57f86b40f4b36c414c876e8d36f4923d1a 100644
+index 7c43de6ad6bd7259c6bcb2a55e312e8abfcf546b..5a76c967e2d9c9c1b09e8de33fcde34e25b4646b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -524,10 +524,15 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
@@ -20466,21 +20466,7 @@ index 7c43de6ad6bd7259c6bcb2a55e312e8abfcf546b..b41a8f57f86b40f4b36c414c876e8d36
      private void validateSpeed(float value) {
          if (value < 0) {
              if (value < -1f) {
-@@ -2602,6 +2633,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
-         this.getHandle().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.DEMO_EVENT, ClientboundGameEventPacket.DEMO_PARAM_INTRO));
-     }
- 
-+    @Override
-+    public void showCreditScreen() {
-+        if (this.getHandle().connection == null) return;
-+
-+        this.getHandle().connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.WIN_GAME, 1F));
-+    }
-+
-     @Override
-     public boolean isAllowingServerListings() {
-         return this.getHandle().allowsListing();
-@@ -3029,4 +3067,97 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -3029,4 +3060,97 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return this.spigot;
      }
      // Spigot end
