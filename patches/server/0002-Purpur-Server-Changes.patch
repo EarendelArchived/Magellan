@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: AlphaKR93 <alphakr93@gmail.com>
-Date: Mon, 23 Jan 2023 08:46:53 +0000
+Date: Sun, 29 Jan 2023 00:53:03 +0000
 Subject: [PATCH] Purpur Server Changes
 
 Original: PurpurMC
@@ -19391,7 +19391,7 @@ index 3f72703d2063a082546305eeb0a1b21629ddb1b2..93f31a99363e73a24571b66cd5bbaf7b
          if (state.getBlock() instanceof LiquidBlockContainer) {
              ((LiquidBlockContainer) state.getBlock()).placeLiquid(world, pos, state, fluidState);
 diff --git a/src/main/java/net/minecraft/world/level/material/LavaFluid.java b/src/main/java/net/minecraft/world/level/material/LavaFluid.java
-index 783e315d92227cbcb5cd207b0a06a12e0778d14b..3a04cb4c646c07abf4338c70c865a4c4cb34b1bc 100644
+index 783e315d92227cbcb5cd207b0a06a12e0778d14b..b05b4d3d97bca159c297f150005b5ab5bf6087e0 100644
 --- a/src/main/java/net/minecraft/world/level/material/LavaFluid.java
 +++ b/src/main/java/net/minecraft/world/level/material/LavaFluid.java
 @@ -180,7 +180,7 @@ public abstract class LavaFluid extends FlowingFluid {
@@ -19417,8 +19417,17 @@ index 783e315d92227cbcb5cd207b0a06a12e0778d14b..3a04cb4c646c07abf4338c70c865a4c4
      @Override
      protected boolean canConvertToSource(Level world) {
          return world.getGameRules().getBoolean(GameRules.RULE_LAVA_SOURCE_CONVERSION);
+@@ -232,7 +239,7 @@ public abstract class LavaFluid extends FlowingFluid {
+ 
+     @Override
+     protected float getExplosionResistance() {
+-        return 100.0F;
++        return Blocks.LAVA.getExplosionResistance(); // Purpur
+     }
+ 
+     @Override
 diff --git a/src/main/java/net/minecraft/world/level/material/WaterFluid.java b/src/main/java/net/minecraft/world/level/material/WaterFluid.java
-index 82e85fbbd45244d02df90fa00c9046e7f51275a2..ec6c63075306f9e5389e83641d2c8a82369ddc6b 100644
+index 82e85fbbd45244d02df90fa00c9046e7f51275a2..0f16deddd8cbb506ef7886f57ae640a42e841703 100644
 --- a/src/main/java/net/minecraft/world/level/material/WaterFluid.java
 +++ b/src/main/java/net/minecraft/world/level/material/WaterFluid.java
 @@ -64,6 +64,13 @@ public abstract class WaterFluid extends FlowingFluid {
@@ -19435,6 +19444,15 @@ index 82e85fbbd45244d02df90fa00c9046e7f51275a2..ec6c63075306f9e5389e83641d2c8a82
      // Paper start
      @Override
      protected void beforeDestroyingBlock(LevelAccessor world, BlockPos pos, BlockState state,  BlockPos source) {
+@@ -109,7 +116,7 @@ public abstract class WaterFluid extends FlowingFluid {
+ 
+     @Override
+     protected float getExplosionResistance() {
+-        return 100.0F;
++        return Blocks.WATER.getExplosionResistance(); // Purpur
+     }
+ 
+     @Override
 diff --git a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java b/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
 index d23481453717f715124156b5d83f6448f720d049..a8af51a25b0f99c3a64d9150fdfcd6b818aa7581 100644
 --- a/src/main/java/net/minecraft/world/level/pathfinder/PathFinder.java
