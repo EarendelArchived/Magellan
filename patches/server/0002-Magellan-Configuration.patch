@@ -157,10 +157,10 @@ index 65cf213c6bf41f6a29c508ebcf3b13f9fe26df37..ce871be3a145e270a8d156dcde43a8ba
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
          this.generator = gen;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b4c6055b87a0fa50264bab5eb12fb28fb5982316..9dcf5edac779c818a4a58a7672d70ebb352beaed 100644
+index f14bebb941a9633198ec1f6eb7043c2651504327..b38ff43329f3ddceef89fc3dd854763a962433ae 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1027,6 +1027,7 @@ public final class CraftServer implements Server {
+@@ -1033,6 +1033,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          this.console.andromedaConfigurations.reloadConfigurations(this.console); // Andromeda
@@ -168,7 +168,7 @@ index b4c6055b87a0fa50264bab5eb12fb28fb5982316..9dcf5edac779c818a4a58a7672d70ebb
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
-@@ -2877,6 +2878,13 @@ public final class CraftServer implements Server {
+@@ -2883,6 +2884,13 @@ public final class CraftServer implements Server {
          }
          // Andromeda end
  
