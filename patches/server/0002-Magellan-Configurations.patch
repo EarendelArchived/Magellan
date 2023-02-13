@@ -233,7 +233,7 @@ index ef6ff78af2ae747e939895b82ee9d11c75012dcd..fa3ad152fdff6d0a23d0aadb53e711c4
      }
  }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 46858fb57f122033a68aeb4ad3943132a677fb46..3e496a0eb88f2e54694a128eb1420adbbbc80c48 100644
+index fd1b0564d2d2b45128e6f2556fb93ee56bd683b5..9cf148704a5925d310582ada1408a62c3881041e 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -208,6 +208,10 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -1004,10 +1004,10 @@ index 0000000000000000000000000000000000000000..753ed62bee111f975d7aa1fde17ac8b0
 +
 +}
 diff --git a/src/test/java/org/bukkit/support/AbstractTestingBase.java b/src/test/java/org/bukkit/support/AbstractTestingBase.java
-index 084c48ffabac2cd753609add745203e8a55bc09e..ee23b6399c9c54b554b5e5b6730aefc26b617060 100644
+index f1be92753106abedc3617257517bbb66d02923b1..d65bc381288082e958d79fec10794724e4ca65a1 100644
 --- a/src/test/java/org/bukkit/support/AbstractTestingBase.java
 +++ b/src/test/java/org/bukkit/support/AbstractTestingBase.java
-@@ -68,6 +68,7 @@ public abstract class AbstractTestingBase {
+@@ -73,6 +73,7 @@ public abstract class AbstractTestingBase {
          DummyServer.setup();
          DummyEnchantments.setup();
          io.papermc.paper.configuration.GlobalConfigTestingBase.setupGlobalConfigForTest(); // Paper
