@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 89a7041b9abcd0c49c10693af01a6c8a1ae28e87..523a6040875772997a712b558f3483b266b54932 100644
+index 4a75fb8eb264cc34bb9fadfaa1b0cd62eef9d247..7b70762b309d81d7c6cbbb0dd7c18033a7cf3cc6 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,7 +7,7 @@ plugins {
@@ -117,7 +117,7 @@ index 1d73521c798ef5d0a462aec401b7cc6d3e10d9ff..96c9077e3bdd4c3c0a3f0adf2ed1181d
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
-index c5175ba257b51170a5cff984ccb65df73443e1df..31faf2d6492696f7d0c99a48edbc0d6f15db1209 100644
+index a1f2a4f2f239e4addd0cda1c247c63f67bd9f0f5..781b72fd88149642c9fceaecfbfe7546273fb749 100644
 --- a/src/main/java/net/minecraft/server/Main.java
 +++ b/src/main/java/net/minecraft/server/Main.java
 @@ -76,20 +76,6 @@ public class Main {
@@ -142,7 +142,7 @@ index c5175ba257b51170a5cff984ccb65df73443e1df..31faf2d6492696f7d0c99a48edbc0d6f
          /* CraftBukkit start - Replace everything
          OptionParser optionparser = new OptionParser();
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 90b031b4046f125d6e3fe2215686ff788d33965c..45a24d0f6bb4aedf40976a51a78286da51866d54 100644
+index 9548f916501797854938a898a03ed44d5d48df3f..05d0d3ac9d90f214cae06f07265e410a6e435339 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -930,7 +930,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -186,10 +186,10 @@ index 3a98106f8b26a55d17681f94e365f1340b1d3449..accfed7191dbfe66b29d52ab9852ad45
                      servergui.runFinalizers();
                  }
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 7eac2897643f6af4032e3a4d15a7d7e62ce5aa44..65cf213c6bf41f6a29c508ebcf3b13f9fe26df37 100644
+index 4fa6614f424a29a5262871a47b016ceb1d0d7a87..1bc01f8f95ef9312ae3a1c1c24f2f5b96dee9011 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -1048,7 +1048,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -1050,7 +1050,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
              TickingBlockEntity tickingblockentity = (TickingBlockEntity) this.blockEntityTickers.get(tileTickPosition);
              // Spigot start
              if (tickingblockentity == null) {
@@ -212,7 +212,7 @@ index b009b06dd6390def2ef58a6a9c2e3d029ad4293d..463caa97bdb6755cb42f581adebab9f1
  
      private static final int DEFAULT_SIZE_THRESHOLD = 1024 * 8;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 8697748cdb25856d0c2bc6f1a73b39c7c5d353b9..f54d94633a6136d254d917c5371a5fa3fb9db272 100644
+index f3239dbf19a2e4bfedc4e240212738fc82bc5a8a..c8e3074d636adf2574be2fd8381a346d70e4a48b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper

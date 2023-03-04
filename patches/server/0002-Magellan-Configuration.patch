@@ -26,7 +26,7 @@ index 69e92e493e5821e7b3e511f171ec6afd7ea36f0b..d9f4079f533cc8aec56e75744377a2b4
 +    // Magellan end
  }
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 45a24d0f6bb4aedf40976a51a78286da51866d54..bf5d3b17e492ed7de6878040dc4ea8d1827df739 100644
+index 05d0d3ac9d90f214cae06f07265e410a6e435339..91d9dc8529138f6b59dd8231ca39c21ab4e3d98a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -306,6 +306,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -127,7 +127,7 @@ index 3d0f8578eb31d3e718df9641033641c93b360570..065764a4ce125cea486a039d8335fd78
          this.convertable = convertable_conversionsession;
          this.uuid = WorldUUID.getUUID(convertable_conversionsession.levelDirectory.path().toFile());
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 65cf213c6bf41f6a29c508ebcf3b13f9fe26df37..ce871be3a145e270a8d156dcde43a8ba57a5167b 100644
+index 1bc01f8f95ef9312ae3a1c1c24f2f5b96dee9011..5daefba671c1ccd36dc31105ed221f85520db5d1 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -177,6 +177,12 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -157,10 +157,10 @@ index 65cf213c6bf41f6a29c508ebcf3b13f9fe26df37..ce871be3a145e270a8d156dcde43a8ba
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
          this.generator = gen;
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 928fe8df4847828e9cc72c163effc0a457d5bd46..13b77f950ebd46852b575b18aad8589b44b09e05 100644
+index c8e3074d636adf2574be2fd8381a346d70e4a48b..e942e7c14ad4c8cd9da50bde7692903901153aef 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1034,6 +1034,7 @@ public final class CraftServer implements Server {
+@@ -976,6 +976,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          this.console.andromedaConfigurations.reloadConfigurations(this.console); // Andromeda
@@ -168,7 +168,7 @@ index 928fe8df4847828e9cc72c163effc0a457d5bd46..13b77f950ebd46852b575b18aad8589b
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
-@@ -2884,6 +2885,13 @@ public final class CraftServer implements Server {
+@@ -2827,6 +2828,13 @@ public final class CraftServer implements Server {
          }
          // Andromeda end
  
